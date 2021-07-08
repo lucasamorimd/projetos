@@ -23,15 +23,16 @@ Seja bem-vindo!
   </li>
   <li>
   <a href="https://github.com/lucasamorimd/projetos/tree/game_play_nlw">
-  Game Play (Projeto da NLW)
+  Game Play 
   </a>
+  (Projeto NLW da <a href="https://www.instagram.com/rocketseat_oficial/">Rocketseat</a>)
   </li>
   <li>
   <a href="https://github.com/lucasamorimd/projetos/tree/encurta_link">
   Encurta Link
   </a> 
    (Projeto Insider do
-  <a href="https://instagra.com/sujeitoprogramador">
+  <a href="https://instagram.com/sujeitoprogramador">
   Sujeito Programador
   </a>
   )
