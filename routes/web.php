@@ -5,10 +5,10 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\FuncionarioController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MedicoController;
+use App\Http\Controllers\ProntuarioController;
 use App\Http\Controllers\ServicoController;
 use App\Http\Controllers\UnidadeController;
 use App\Http\Controllers\UsuarioController;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -81,6 +81,8 @@ Route::prefix('servicos')->group(function () {
  * @return Rotas_de_Agendamentos
  * */
 Route::prefix('agendamentos')->group(function () {
+    Route::get('/atender-pendente/{id}', [AgendamentoController::class, 'edit'])->name('atenderPendente');
+    Route::post('/salvar-atendimento', [AgendamentoController::class, 'update'])->name('salvarAtendimento');
     Route::get('/{situacao}', [AgendamentoController::class, 'index'])->name('agendamentos');
     Route::get('/{situacao}/{id}', [AgendamentoController::class, 'show'])->name('detalharAgendamento');
 });
@@ -105,3 +107,5 @@ Route::prefix('funcionarios')->group(function () {
     Route::post('/salvar-funcionario', [FuncionarioController::class, 'store'])->name('salvarFuncionario');
     Route::get('/alterar-funcionario/{id}', [FuncionarioController::class, 'edit'])->name('alterarFuncionario');
 });
+
+Route::get('/download/{id_user}/{nome_arquivo}', [ProntuarioController::class, 'baixarPDF']);

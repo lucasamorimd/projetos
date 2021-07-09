@@ -10,6 +10,8 @@ use App\Models\Unidade;
 use App\Models\Unidade_medico;
 use App\Models\Unidade_servico;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class UnidadeController extends Controller
 {
@@ -35,6 +37,9 @@ class UnidadeController extends Controller
      */
     public function create()
     {
+        if (!Gate::allows('admin')) {
+            return redirect()->route('home')->with('aviso', ['msg' => 'Não autorizado!']);
+        }
         $dados_servicos = Servico::all();
         return view('unidades.cadastrar', ['servicos' => $dados_servicos]);
     }
@@ -47,6 +52,9 @@ class UnidadeController extends Controller
      */
     public function store(UnidadeStoreRequest $request)
     {
+        if (!Gate::allows('admin')) {
+            return redirect()->route('home')->with('aviso', ['msg' => 'Não autorizado!']);
+        }
         $nova_unidade = Unidade::create(
             [
                 'nome_unidade' => $request->nome,
@@ -86,6 +94,7 @@ class UnidadeController extends Controller
         Servico $servicos,
         $id
     ) {
+
         $dados_unidade = $unidade->where('id_unidade', $id)->first();
         $id_servicos = $id_servicos->where('id_unidade', $id)->select('id_servico')->get();
         $dados_servicos = $servicos->whereIn('id_servico', $id_servicos)->get();
@@ -115,6 +124,9 @@ class UnidadeController extends Controller
         Medico $medico,
         $id
     ) {
+        if (!Gate::allows('admin')) {
+            return redirect()->route('home')->with('aviso', ['msg' => 'Não autorizado!']);
+        }
         $dados_unidade = $unidade->where('id_unidade', $id)->first();
         $id_medicos = $unidade_medico->where('id_unidade', $id)->select('id_medico')->get();
         $id_servicos = $unidade_servico->where('id_unidade', $id)->select('id_servico')->get();
@@ -153,6 +165,9 @@ class UnidadeController extends Controller
      */
     public function update(Request $request, Unidade $unidade)
     {
+        if (!Gate::allows('admin')) {
+            return redirect()->route('home')->with('aviso', ['msg' => 'Não autorizado!']);
+        }
         $alterar_unidade = $unidade->where('id_unidade', $request->id_unidade)->update(
             [
                 'nome_unidade' => $request->nome,
@@ -199,6 +214,9 @@ class UnidadeController extends Controller
     }
     public function destroyServicoUnidade($id_servico, $id_unidade)
     {
+        if (!Gate::allows('admin')) {
+            return redirect()->route('home')->with('aviso', ['msg' => 'Não autorizado!']);
+        }
         Unidade_servico::where('id_servico', $id_servico)->where('id_unidade', $id_unidade)->delete();
         $id_medicos = Medico::where('id_unidade', $id_unidade)->select('id_medico')->get();
         Medico_servico::whereIn('id_medico', $id_medicos)->where('id_servico', $id_servico)->delete();

@@ -3,7 +3,7 @@
 {{$unidade->nome_unidade}}
 @endsection
 @section('content_header')
-<h1>{{$unidade->nome_unidade}}</h1>
+<h1>Informações de Unidade</h1>
 @endsection
 @section('content')
 

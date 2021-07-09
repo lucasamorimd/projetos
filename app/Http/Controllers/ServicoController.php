@@ -10,6 +10,8 @@ use App\Models\Unidade;
 use App\Models\Unidade_medico;
 use App\Models\Unidade_servico;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class ServicoController extends Controller
 {
@@ -24,7 +26,15 @@ class ServicoController extends Controller
      */
     public function index()
     {
-        $dados_servicos = Servico::all();
+        if (Auth::user()->tipo_perfil === 'administrador') {
+
+            $dados_servicos = Servico::all();
+        } else {
+            $id_servicos = Unidade_servico::where('id_unidade', Auth::user()->id_unidade)
+                ->select('id_servico')
+                ->get();
+            $dados_servicos = Servico::whereIn('id_servico', $id_servicos)->get();
+        }
         return view('servicos.home', ['servicos' => $dados_servicos]);
     }
 
@@ -35,6 +45,9 @@ class ServicoController extends Controller
      */
     public function create()
     {
+        if (!Gate::allows('admin')) {
+            return redirect()->route('home')->with('aviso', ['msg' => 'Não autorizado']);
+        }
         $unidades = Unidade::all();
         return view('servicos.cadastrar', ['unidades' => $unidades]);
     }
@@ -47,6 +60,9 @@ class ServicoController extends Controller
      */
     public function store(ServicoStoreRequest $request)
     {
+        if (!Gate::allows('admin')) {
+            return redirect()->route('home')->with('aviso', ['msg' => 'Não autorizado']);
+        }
         $novo_servico = Servico::create([
             'nome_servico' => $request->nome,
             'tipo_servico' => strtolower($request->tipo_servico),
@@ -88,6 +104,9 @@ class ServicoController extends Controller
     public function edit(Servico $servico, $id)
     {
 
+        if (!Gate::allows('admin')) {
+            return redirect()->route('home')->with('aviso', ['msg' => 'Não autorizado']);
+        }
         //Dados do serviço solicitado para alterar
         $dados_servico = $servico->where('id_servico', $id)->first();
 
@@ -140,6 +159,9 @@ class ServicoController extends Controller
      */
     public function update(Request $request, Servico $servico)
     {
+        if (!Gate::allows('admin')) {
+            return redirect()->route('home')->with('aviso', ['msg' => 'Não autorizado']);
+        }
         $servico->where('id_servico', $request->id_servico)->update([
             'nome_servico' => $request->nome,
             'tipo_servico' => $request->tipo_servico,

@@ -3,7 +3,7 @@
 {{$unidade->nome_unidade}}
 @endsection
 @section('content_header')
-<h1> {{$unidade->nome_unidade}}</h1>
+<h1> Informações de Unidade</h1>
 @endsection
 @section('content')
 <div class="row justify-content-center">
@@ -29,7 +29,9 @@
                                                 <th scope="col">Nome</th>
                                                 <th scope="col">Área de atuação</th>
                                                 <th scope="col">CRM</th>
+                                                @can('admin')
                                                 <th scope="col">Editar</th>
+                                                @endcan
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -38,7 +40,9 @@
                                                 <th scope="row">{{$medico->nome_medico}}</th>
                                                 <td>{{$medico->area_atuacao}}</td>
                                                 <td>{{$medico->crm}}</td>
+                                                @can('admin')
                                                 <td> <a href="{{route('alterarMedico',$medico->id_medico)}}" class="btn btn-primary"><i class="fas fa-user-edit"></i></a></td>
+                                                @endcan
                                             </tr>
                                             @endforeach
                                         </tbody>
@@ -59,7 +63,9 @@
                                                 <th scope="col">Nome</th>
                                                 <th scope="col">Tipo</th>
                                                 <th scope="col">Preço</th>
+                                                @can('admin')
                                                 <th scope="col">Editar</th>
+                                                @endcan
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -68,7 +74,9 @@
                                                 <th scope="row">{{$servico->nome_servico}}</th>
                                                 <td>{{$servico->tipo_servico}}</td>
                                                 <td>R$ {{number_format($servico->preco_servico, 2, ',', ' ')}}</td>
+                                                @can('admin')
                                                 <td><a href="{{route('excluirServicoUnidade',[$servico->id_servico,$unidade->id_unidade])}}" class="btn btn-danger"><i class="fas fa-trash"></i></a></td>
+                                                @endcan
                                             </tr>
                                             @endforeach
                                         </tbody>
@@ -81,7 +89,9 @@
 
             </div>
             <div class="card-footer text-muted text-center">
+                @can('admin')
                 <a href="{{route('alterarUnidade',$unidade->id_unidade)}}" class="btn btn-primary">Alterar</a>
+                @endcan
             </div>
         </div>
     </div>

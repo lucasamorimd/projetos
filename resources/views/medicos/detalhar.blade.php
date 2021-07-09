@@ -49,7 +49,9 @@
         </div>
     </div>
     <div class="card-footer text-muted text-center">
+        @can('admin')
         <a class="btn btn-primary" href="{{route('alterarMedico',$medico->id_medico)}}">Alterar</a>
+        @endcan
     </div>
     <div id="servico" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">

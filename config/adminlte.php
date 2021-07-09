@@ -264,12 +264,14 @@ return [
                 [
                     'text' => 'Cadastrar',
                     'url'  => '/unidades/cadastrar-unidade',
+                    'can' => 'admin'
                 ]
             ]
         ],
         [
             'text' => 'Serviços',
             'icon' => 'fas fa-fw fa-medkit',
+
             'submenu' => [
                 [
                     'text' => 'Listar',
@@ -278,6 +280,7 @@ return [
                 [
                     'text' => 'Cadastrar',
                     'url'  => '/servicos/cadastrar-servico',
+                    'can' => 'admin'
                 ]
             ]
         ],
@@ -292,6 +295,7 @@ return [
                 [
                     'text' => 'Cadastrar',
                     'url'  => '/medicos/cadastrar-medico',
+                    'can' => 'admin'
                 ]
             ]
         ],
@@ -304,6 +308,10 @@ return [
                     'url'  => '/agendamentos/pendentes',
                 ],
                 [
+                    'text' => 'Em andamento',
+                    'url'  => '/agendamentos/aguardando-resultado',
+                ],
+                [
                     'text' => 'Realizados',
                     'url'  => '/agendamentos/realizados',
                 ]
@@ -312,6 +320,7 @@ return [
         [
             'text' => 'Usuários',
             'icon' => 'fas fa-fw fa-user',
+            'can' => 'admin',
             'submenu' => [
                 [
                     'text' => 'Pacientes',

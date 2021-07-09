@@ -4,10 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Agendamento;
 use App\Models\Medico;
+use App\Models\Prontuario;
 use App\Models\Servico;
 use App\Models\Unidade;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class AgendamentoController extends Controller
 {
@@ -15,6 +19,7 @@ class AgendamentoController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('can:admin-func');
     }
 
     /**
@@ -24,9 +29,19 @@ class AgendamentoController extends Controller
      */
     public function index($situacaoInicial)
     {
+
         $situacao = substr($situacaoInicial, 0, -1);
+        $titulo = $situacaoInicial;
+        if ($situacaoInicial == 'aguardando-resultado') {
+            $situacao = $situacaoInicial;
+            $titulo_divi = explode('-', $situacaoInicial);
+            $titulo = ucfirst($titulo_divi[0]) . ' ' . $titulo_divi[1];
+        }
         $agendamentos = Agendamento::where('situacao', $situacao)->get();
-        return view('agendamentos.home', ['agendamentos' => $agendamentos, 'titulo' => $situacaoInicial]);
+        if (Auth::user()->tipo_perfil === 'funcionario') {
+            $agendamentos = Agendamento::where('situacao', $situacao)->where('id_unidade', Auth::user()->id_unidade)->get();
+        }
+        return view('agendamentos.home', ['agendamentos' => $agendamentos, 'titulo' => $titulo]);
     }
 
     /**
@@ -62,6 +77,7 @@ class AgendamentoController extends Controller
         Unidade $unidade,
         Servico $servico,
         Medico $medico,
+        Prontuario $prontuario,
         $situacao,
         $id
     ) {
@@ -70,6 +86,7 @@ class AgendamentoController extends Controller
         $dados_unidade = $unidade->where('id_unidade', $dados_agendamento->id_unidade)->first();
         $dados_servico = $servico->where('id_servico', $dados_agendamento->id_servico)->first();
         $dados_medico = $medico->where('id_medico', $dados_agendamento->id_medico)->first();
+        $dados_prontuario = $prontuario->where('id_prontuario', $dados_agendamento->id_prontuario);
         return view('agendamentos.detalhar', [
             'agendamento' => $dados_agendamento,
             'usuario' => $dados_usuario,
@@ -77,6 +94,7 @@ class AgendamentoController extends Controller
             'servico' => $dados_servico,
             'medico' => $dados_medico,
             'situacao' => $situacao,
+            'prontuario' => $dados_prontuario
         ]);
     }
 
@@ -86,9 +104,24 @@ class AgendamentoController extends Controller
      * @param  \App\Models\Agendamento  $agendamento
      * @return \Illuminate\Http\Response
      */
-    public function edit(Agendamento $agendamento)
+    public function edit(Agendamento $agendamento, $id)
     {
-        //
+        $agendamento->where('id_agendamento', $id)->update([
+            'situacao' => 'aguardando-resultado'
+        ]);
+        $dados_agendamento = $agendamento->where('id_agendamento', $id)->first();
+        $dados_usuario = Usuario::where('id_usuario', $dados_agendamento->id_usuario)->first();
+        $dados_unidade = Unidade::where('id_unidade', $dados_agendamento->id_unidade)->first();
+        $dados_servico = Servico::where('id_servico', $dados_agendamento->id_servico)->first();
+        $dados_medico = Medico::where('id_medico', $dados_agendamento->id_medico)->first();
+        return view('agendamentos.atenderPendente', [
+            'agendamento' => $dados_agendamento,
+            'usuario' => $dados_usuario,
+            'unidade' => $dados_unidade,
+            'servico' => $dados_servico,
+            'medico' => $dados_medico,
+
+        ]);
     }
 
     /**
@@ -100,7 +133,33 @@ class AgendamentoController extends Controller
      */
     public function update(Request $request, Agendamento $agendamento)
     {
-        //
+        $validar_arquivo = Validator::make($request->all(), [
+            'resumo' => ['required'],
+            'arquivo_prontuario' => ['required', 'file', 'mimes:pdf']
+        ], [
+
+            'resumo.required' => 'Digitar algum resumo do prontuário do paciente',
+            'arquivo_prontuario.required' => 'Insira um arquivo PDF',
+            'arquivo_prontuario.file' => 'Arquivo inválido',
+            'arquivo_prontuario.mimes' => 'Arquivo inserido não é pdf'
+        ]);
+
+        if ($validar_arquivo->fails()) {
+            return redirect()->route('atenderPendente', $request->id_agendamento)->withErrors($validar_arquivo);
+        }
+        $nome_arquivo = md5($request->id_agendamento . $request->nome_paciente) . '.pdf';
+
+        $novo_prontuario = Prontuario::create([
+            'resumo' => $request->resumo,
+            'nome_arquivo' => $nome_arquivo,
+
+        ]);
+        $agendamento->where('id_agendamento', $request->id_agendamento)->update([
+            'id_prontuario' => $novo_prontuario->id,
+            'situacao' => 'realizado'
+        ]);
+        $msg = "Atendimento finalizado";
+        return redirect()->route('agendamentos', 'realizados')->with('aviso', ['msg' => $msg]);
     }
 
     /**
@@ -113,4 +172,5 @@ class AgendamentoController extends Controller
     {
         //
     }
+
 }

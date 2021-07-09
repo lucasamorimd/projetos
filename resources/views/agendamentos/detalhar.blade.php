@@ -81,7 +81,7 @@
         </div>
     </div>
     <div class="card-footer text-muted text-center">
-        <a class="btn btn-primary" href="#">Alterar</a>
+        <a class="btn btn-primary" href="{{route('atenderPendente',$agendamento->id_agendamento)}}">Atender</a>
     </div>
     <div id="medico" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">

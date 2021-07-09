@@ -44,8 +44,11 @@
             </div>
         </div>
     </div>
+
     <div class="card-footer text-muted text-center">
+        @can('admin')
         <a href="{{route('alterarServico',$servico->id_servico)}}" class="btn btn-primary">Alterar</a>
+        @endcan
     </div>
 </div>
 @endsection

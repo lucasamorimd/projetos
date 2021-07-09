@@ -9,7 +9,9 @@ use App\Models\Servico;
 use App\Models\Unidade;
 use App\Models\Unidade_servico;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 
 class MedicoController extends Controller
@@ -25,7 +27,11 @@ class MedicoController extends Controller
      */
     public function index()
     {
-        $dados_medicos = Medico::all();
+        if (Auth::user()->tipo_perfil === 'administrador') {
+            $dados_medicos = Medico::all();
+        } else {
+            $dados_medicos = Medico::where('id_unidade', Auth::user()->id_unidade)->get();
+        }
         return view('medicos.home', ['medicos' => $dados_medicos]);
     }
 
@@ -36,13 +42,18 @@ class MedicoController extends Controller
      */
     public function create()
     {
+        if (!Gate::allows('admin')) {
+            return redirect()->route('home')->with('aviso', ['msg' => 'Não autorizado']);
+        }
         $dados_unidades = Unidade::all();
         return view('medicos.cadastrar', ['unidades' => $dados_unidades]);
     }
 
     public function servicosAjax(Request $request)
     {
-
+        if (!Gate::allows('admin')) {
+            return redirect()->route('home')->with('aviso', ['msg' => 'Não autorizado']);
+        }
         $id_servicos = Unidade_servico::where('id_unidade', $request->id)->select('id_servico')->get();
         $unidade_servicos = Servico::whereIn('id_servico', $id_servicos)->get();
 
@@ -57,6 +68,9 @@ class MedicoController extends Controller
      */
     public function store(MedicoStoreRequest $request)
     {
+        if (!Gate::allows('admin')) {
+            return redirect()->route('home')->with('aviso', ['msg' => 'Não autorizado']);
+        }
         $novo_medico = Medico::create([
             'id_unidade' => $request->unidade,
             'crm' => $request->crm,
@@ -91,6 +105,8 @@ class MedicoController extends Controller
         Servico $servico,
         $id
     ) {
+
+
         $dados_medico = $medico->where('id_medico', $id)->first();
 
         $dados_unidade = $unidade->where('id_unidade', $dados_medico->id_unidade)->first();
@@ -120,6 +136,11 @@ class MedicoController extends Controller
         Servico $servico,
         $id
     ) {
+
+        if (!Gate::allows('admin')) {
+            return redirect()->route('home')->with('aviso', ['msg' => 'Não autorizado']);
+        }
+
         $dados_medico = $medico->where('id_medico', $id)->first();
 
         $dados_unidade = $unidade->where('id_unidade', $dados_medico->id_unidade)->first();
@@ -157,6 +178,11 @@ class MedicoController extends Controller
      */
     public function update(Request $request, Medico $medico)
     {
+
+        if (!Gate::allows('admin')) {
+            return redirect()->route('home')->with('aviso', ['msg' => 'Não autorizado']);
+        }
+
         $alteracao_medico = $medico->where('id_medico', $request->id_medico)
             ->update([
                 'nome_medico' => $request->nome,
@@ -189,6 +215,11 @@ class MedicoController extends Controller
      */
     public function destroy(Medico $medico, $id)
     {
+
+        if (!Gate::allows('admin')) {
+            return redirect()->route('home')->with('aviso', ['msg' => 'Não autorizado']);
+        }
+
         $deletar_medico = $medico->where('id_medico', $id)->delete();
         if ($deletar_medico === 1) {
             $msg = "Médico excluído com sucesso";
