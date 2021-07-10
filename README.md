@@ -1,12 +1,12 @@
 <h1 align="center">
-Mono-Repo
+Seja bem-vindo!
 </h1>
 <h2 align="center">
-Seja bem-vindo!
+Meus Projetos
 </h2>
 
 <p>
-  Estou iniciando a tentativa de utilizar a organização dos repositórios com o método "mono-repo" que consiste em criar apenas um repositório e nele conter as branches com cada projeto.
+Meus projetos pessoais desenvolvidos nos meus estudos e testes práticos.
   </p>
 
   <h3>Link para cada repositório</h3>
