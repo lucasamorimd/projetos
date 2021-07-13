@@ -1,8 +1,13 @@
 @extends('adminlte::page')
+
 @section('title', 'Funcionários')
+
 @section('content_header')
-<h1>Funcionários <a href="#" class="btn btn-primary">Novo Funcionário</a></h1>
+
+<h1>Funcionários <a href="{{route('cadastrarFuncionario')}}" class="btn btn-primary">Novo Funcionário</a></h1>
+
 @endsection
+
 @section('content')
 <div class="row justify-content-center">
     <div class="col-md-12">
@@ -60,3 +65,8 @@
     </div>
 </div>
 @endsection
+@if(session('aviso'))
+@section('js')
+@include('components.toast')
+@endsection
+@endif

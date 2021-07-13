@@ -81,7 +81,11 @@
         </div>
     </div>
     <div class="card-footer text-muted text-center">
+        @if($agendamento->situacao === 'pendente')
         <a class="btn btn-primary" href="{{route('atenderPendente',$agendamento->id_agendamento)}}">Atender</a>
+        @elseif($agendamento->situacao === 'aguardando-resultado')
+        <a class="btn btn-primary" href="{{route('atenderPendente',$agendamento->id_agendamento)}}">Continuar</a>
+        @endif
     </div>
     <div id="medico" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">

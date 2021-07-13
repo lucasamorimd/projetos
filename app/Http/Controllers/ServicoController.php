@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\ServicoStoreRequest;
 use App\Models\Medico;
 use App\Models\Medico_servico;
@@ -79,8 +80,22 @@ class ServicoController extends Controller
                 ]);
             }
         }
-        $msg = 'Serviço cadastrado!';
-        return redirect()->route('servicos')->with('aviso', ['msg' => $msg]);
+        $notify_title = 'Cadastrar';
+        $notify_subtitle = 'Serviço';
+        if ($novo_servico) {
+            $msg = 'Serviço Cadastrado!';
+            $bg_notificacao = 'bg-primary';
+        } else {
+            $msg = 'Erro no cadastro';
+            $bg_notificacao = 'bg-danger';
+        }
+
+        return redirect()->route('servicos')->with('aviso', [
+            'msg' => $msg,
+            'bg_notificacao' => $bg_notificacao,
+            'titulo_notificacao' => $notify_title,
+            'subtitulo_notificacao' => $notify_subtitle
+        ]);
     }
 
     /**
@@ -157,80 +172,58 @@ class ServicoController extends Controller
      * @param  \App\Models\Servico  $servico
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Servico $servico)
+    public function update(ServicoStoreRequest $request, Servico $servico)
     {
         if (!Gate::allows('admin')) {
             return redirect()->route('home')->with('aviso', ['msg' => 'Não autorizado']);
         }
-        $servico->where('id_servico', $request->id_servico)->update([
+        $update_servico = $servico->where('id_servico', $request->id_servico)->update([
             'nome_servico' => $request->nome,
             'tipo_servico' => $request->tipo_servico,
+            'tempo_estimado' => $request->tempo_estimado,
             'preco_servico' => $request->preco,
             'descricao_servico' => $request->descricao
         ]);
-        Unidade_servico::where('id_servico', $request->id_servico)->delete();
-        Medico_servico::where('id_servico', $request->id_servico)->delete();
-        if ($request->unidades && $request->medicos) {
-            foreach ($request->medicos as $medico) {
-                $id_unidade_medico = collect(['teste' => Medico::where('id_medico', $medico)->select('id_unidade')->first()])->toArray();
-                if (in_array($id_unidade_medico['teste']['id_unidade'], $request->unidades)) {
 
-                    Medico_servico::create([
+        if ($update_servico === 1) {
+            Unidade_servico::where('id_servico', $request->id_servico)->delete();
+            Medico_servico::where('id_servico', $request->id_servico)->delete();
+            $msg = "Houve algum erro!";
+            if ($request->unidades) {
+                foreach ($request->unidades as $unidade) {
+                    Unidade_servico::create([
+                        'id_unidade' => $unidade,
                         'id_servico' => $request->id_servico,
-                        'id_medico' => $medico,
-                        'nome_servico' => strtolower($request->tipo_servico)
+                        'nome_servico' => $request->tipo_servico
                     ]);
                 }
             }
-            foreach ($request->unidades as $unidade) {
-                /* 
-                Verificar se a Unidade marcada contem médico marcado
-
-                -Selecionar os id_medicos pelo id_unidade
-                -Verificar se no array de médicos contem algum dos id
-                */
-
-                //pegar o id da unidade dos médicos passados
-                $id_medico_unidade = collect(['teste02' => Medico::where('id_unidade', $unidade)
-                    ->select('id_medico')
-                    ->first()])
-                    ->toArray();
-                if (in_array($id_medico_unidade['teste02']['id_medico'], $request->medicos)) {
-
-                    Unidade_servico::create([
-                        'id_servico' => $request->id_servico,
-                        'id_unidade' => $unidade,
-                        'nome_servico' => strtolower($request->tipo_servico)
-                    ]);
-                }
-            }
-        }
-        /*
-        if ($request->unidades && $request->medicos) {
-            $medicos_unidade = Medico::whereIn('id_medico', $request->medicos)->select('id_unidade')->orderBy('id_unidade')->get()->toArray();
-            foreach ($request->unidades as $key => $unidade) {
-                dd($medicos_unidade[$key]['id_unidade'] . ' ' . $unidade);
-                if ($unidade == $medicos_unidade[$key]['id_unidade']) {
-
-                    Unidade_servico::create([
-                        'id_servico' => $request->id_servico,
-                        'id_unidade' => $unidade,
-                        'nome_servico' => strtolower($request->tipo_servico)
-                    ]);
-
-                    foreach ($request->medicos as $medico) {
+            if ($request->medicos) {
+                foreach ($request->medicos as $medico) {
+                    $id_medico_unidade = Medico::where('id_medico', $medico)->select('id_unidade')->first();
+                    if (in_array($id_medico_unidade->id_unidade, $request->unidades)) {
                         Medico_servico::create([
-                            'id_servico' => $request->id_servico,
                             'id_medico' => $medico,
-                            'nome_servico' => strtolower($request->tipo_servico)
+                            'id_servico' => $request->id_servico,
+                            'nome_servico' => $request->tipo_servico
                         ]);
                     }
                 }
             }
+            $msg = 'Serviço alterado com sucesso';
+            $bg_notificacao = 'bg-primary';
         }
-        */
-        $msg = 'Serviço alterado com sucesso';
-        return redirect()->route('alterarServico', $request->id_servico)->with('aviso', ['msg' => $msg]);
+
+
+        $notify_title = 'Alteração';
+        $notify_subtitle = 'Serviço';
+
+        return redirect()->route('alterarServico', $request->id_servico)->with('aviso', [
+            'msg' => $msg,
+            'bg_notificacao' => $bg_notificacao,
+            'titulo_notificacao' => $notify_title,
+            'subtitulo_notificacao' => $notify_subtitle
+        ]);
     }
 
     /**

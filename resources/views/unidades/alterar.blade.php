@@ -3,6 +3,9 @@
 {{$unidade->nome_unidade}}
 @endsection
 @section('content_header')
+@if(session('aviso'))
+<div class="alert {{session('aviso')['bg_notificacao']}}">{{session('aviso')['msg']}}</div>
+@endif
 <h1>Informações de Unidade</h1>
 @endsection
 @section('content')
@@ -89,16 +92,16 @@
                         <div class="col-sm-4">
                             @foreach($unidade_servicos as $servico)
                             <div class="custom-control custom-checkbox">
-                                <input name="servicos[]" class="custom-control-input" type="checkbox" value="{{$servico->id_servico}}" id="unidadeCheck{{$servico->id_servico}}" checked>
-                                <label class="custom-control-label" for="unidadeCheck{{$servico->id_servico}}">
+                                <input name="servicos[]" class="custom-control-input" type="checkbox" value="{{$servico->id_servico}}" id="servicoCheck{{$servico->id_servico}}" checked>
+                                <label class="custom-control-label" for="servicoCheck{{$servico->id_servico}}">
                                     {{$servico->nome_servico}}
                                 </label>
                             </div>
                             @endforeach
                             @foreach($servicos as $servico)
                             <div class="custom-control custom-checkbox">
-                                <input name="servicos[]" class="custom-control-input" type="checkbox" value="{{$servico->id_servico}}" id="unidadeCheck{{$servico->id_servico}}">
-                                <label class="custom-control-label" for="unidadeCheck{{$servico->id_servico}}">
+                                <input name="servicos[]" class="custom-control-input" type="checkbox" value="{{$servico->id_servico}}" id="servicoCheck{{$servico->id_servico}}">
+                                <label class="custom-control-label" for="servicoCheck{{$servico->id_servico}}">
                                     {{$servico->nome_servico}}
                                 </label>
                             </div>
@@ -112,7 +115,7 @@
                         </div>
                         <label for="servico" class="col-sm-1 col-form-label">Médicos</label>
                         <div class="col-sm-4">
-                            @foreach($unidade_medicos as $medico)
+                            @foreach($medicos as $medico)
                             <div class="custom-control custom-checkbox">
                                 <input name="medicos[]" class="custom-control-input" type="checkbox" value="{{$medico->id_medico}}" id="medicoCheck{{$medico->id_medico}}" checked>
                                 <label class="custom-control-label" for="medicoCheck{{$medico->id_medico}}">
@@ -120,7 +123,7 @@
                                 </label>
                             </div>
                             @endforeach
-                            @foreach($medicos as $medico)
+                            @foreach($unidade_medicos as $medico)
                             <div class="custom-control custom-checkbox">
                                 <input name="medicos[]" class="custom-control-input" type="checkbox" value="{{$medico->id_medico}}" id="medicoCheck{{$medico->id_medico}}">
                                 <label class="custom-control-label" for="medicoCheck{{$medico->id_medico}}">

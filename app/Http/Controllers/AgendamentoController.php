@@ -41,7 +41,7 @@ class AgendamentoController extends Controller
         if (Auth::user()->tipo_perfil === 'funcionario') {
             $agendamentos = Agendamento::where('situacao', $situacao)->where('id_unidade', Auth::user()->id_unidade)->get();
         }
-        return view('agendamentos.home', ['agendamentos' => $agendamentos, 'titulo' => $titulo]);
+        return view('agendamentos.home', ['agendamentos' => $agendamentos, 'url' => $situacaoInicial, 'titulo' => $titulo]);
     }
 
     /**
@@ -147,6 +147,7 @@ class AgendamentoController extends Controller
         if ($validar_arquivo->fails()) {
             return redirect()->route('atenderPendente', $request->id_agendamento)->withErrors($validar_arquivo);
         }
+
         $nome_arquivo = md5($request->id_agendamento . $request->nome_paciente) . '.pdf';
 
         $novo_prontuario = Prontuario::create([
@@ -154,12 +155,29 @@ class AgendamentoController extends Controller
             'nome_arquivo' => $nome_arquivo,
 
         ]);
-        $agendamento->where('id_agendamento', $request->id_agendamento)->update([
-            'id_prontuario' => $novo_prontuario->id,
-            'situacao' => 'realizado'
+
+        $notify_title = 'Atendimento';
+        $notify_subtitle = 'Funcionário';
+
+        if ($novo_prontuario) {
+            $agendamento->where('id_agendamento', $request->id_agendamento)->update([
+                'id_prontuario' => $novo_prontuario->id,
+                'situacao' => 'realizado'
+            ]);
+
+            $msg = 'Atendimento finalizado!';
+            $bg_notificacao = 'bg-primary';
+        } else {
+            $msg = 'Erro na finalização!';
+            $bg_notificacao = 'bg-danger';
+        }
+        $request->arquivo_prontuario->storeAs('public/prontuarios', $nome_arquivo);
+        return redirect()->route('agendamentos', 'realizados')->with('aviso', [
+            'msg' => $msg,
+            'bg_notificacao' => $bg_notificacao,
+            'titulo_notificacao' => $notify_title,
+            'subtitulo_notificacao' => $notify_subtitle
         ]);
-        $msg = "Atendimento finalizado";
-        return redirect()->route('agendamentos', 'realizados')->with('aviso', ['msg' => $msg]);
     }
 
     /**
@@ -172,5 +190,4 @@ class AgendamentoController extends Controller
     {
         //
     }
-
 }

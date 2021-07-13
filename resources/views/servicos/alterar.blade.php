@@ -3,7 +3,10 @@
 {{$servico->nome_servico}}
 @endsection
 @section('content_header')
-<h1>{{$servico->nome_servico}} {{Auth::user()->nome_funcionario}}</h1>
+@if(session('aviso'))
+<div class="alert {{session('aviso')['bg_notificacao']}}">{{session('aviso')['msg']}}</div>
+@endif
+<h1>{{$servico->nome_servico}}</h1>
 @endsection
 @section('content')
 
@@ -97,7 +100,7 @@
                             <div class="custom-control custom-checkbox">
                                 <input checked name="medicos[]" class="custom-control-input" type="checkbox" value="{{$medico->id_medico}}" id="medico{{$medico->id_medico}}">
                                 <label class="custom-control-label" for="medico{{$medico->id_medico}}">
-                                    {{$medico->nome_medico}}
+                                    {{$medico->nome_medico}} ({{$medico->area_atuacao}})
                                 </label>
                             </div>
                             @endif
@@ -107,7 +110,7 @@
                             <div class="custom-control custom-checkbox">
                                 <input name="medicos[]" class="custom-control-input" type="checkbox" value="{{$medico->id_medico}}" id="medico{{$medico->id_medico}}">
                                 <label class="custom-control-label" for="medico{{$medico->id_medico}}">
-                                    {{$medico->nome_medico}}
+                                    {{$medico->nome_medico}} ({{$medico->area_atuacao}})
                                 </label>
                             </div>
                             @endif
@@ -139,7 +142,7 @@
                             <div class="custom-control custom-checkbox">
                                 <input name="medicos[]" class="custom-control-input" type="checkbox" value="{{$medico->id_medico}}" id="medico{{$medico->id_medico}}">
                                 <label class="custom-control-label" for="medico{{$medico->id_medico}}">
-                                    {{$medico->nome_medico}}
+                                    {{$medico->nome_medico}} ({{$medico->area_atuacao}})
                                 </label>
                             </div>
                             @endif

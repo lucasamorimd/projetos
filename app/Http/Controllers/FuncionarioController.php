@@ -6,6 +6,7 @@ use App\Http\Requests\FuncionarioStoreRequest;
 use App\Models\Funcionario;
 use App\Models\Unidade;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 
 class FuncionarioController extends Controller
@@ -44,6 +45,10 @@ class FuncionarioController extends Controller
      */
     public function store(FuncionarioStoreRequest $request)
     {
+        if (!Gate::allows('cadastrar-usuario')) {
+            return redirect()->route('home')->with('aviso', ['msg' => 'Não autorizado']);
+        }
+
         $novo_funcionario = Funcionario::create([
             'nome_funcionario' => $request->nome,
             'email' => $request->email,
@@ -51,8 +56,27 @@ class FuncionarioController extends Controller
             'id_unidade' => $request->unidade,
             'tipo_perfil' => $request->perfil
         ]);
-        $msg = 'Funcionário Cadastrado!';
-        return redirect()->route('funcionarios')->with('aviso', ['msg' => $msg]);
+
+        $notify_title = 'Cadastro';
+        $notify_subtitle = 'Funcionário';
+
+        if ($novo_funcionario) {
+            $msg = 'Funcionário Cadastrado!';
+            $bg_notificacao = 'bg-primary';
+        } else {
+            $bg_notificacao = 'bg-danger';
+            $msg = 'Erro no cadastro!';
+        }
+
+        return redirect()->route('funcionarios')->with(
+            'aviso',
+            [
+                'msg' => $msg,
+                'bg_notificacao' => $bg_notificacao,
+                'titulo_notificacao' => $notify_title,
+                'subtitulo_notificacao' => $notify_subtitle
+            ]
+        );
     }
 
     /**

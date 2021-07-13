@@ -26,3 +26,8 @@
     </div>
 </div>
 @endsection
+@if(session('aviso'))
+@section('js')
+@include('components.toast')
+@endsection
+@endif

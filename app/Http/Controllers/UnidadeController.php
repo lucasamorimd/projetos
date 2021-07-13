@@ -10,7 +10,6 @@ use App\Models\Unidade;
 use App\Models\Unidade_medico;
 use App\Models\Unidade_servico;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class UnidadeController extends Controller
@@ -77,8 +76,18 @@ class UnidadeController extends Controller
                 ]);
             }
         }
+        $bg_notificacao = 'bg-primary';
+        $msg = 'Unidade cadastrada';
+        $notify_title = 'Cadastrar';
+        $notify_subtitle = 'Unidade';
+
         $msg = "Unidade cadastrada";
-        return redirect()->route('unidades')->with('aviso', ['msg' => $msg]);
+        return redirect()->route('unidades')->with('aviso', [
+            'msg' => $msg,
+            'bg_notificacao' => $bg_notificacao,
+            'titulo_notificacao' => $notify_title,
+            'subtitulo_notificacao' => $notify_subtitle
+        ]);
     }
 
     /**
@@ -149,9 +158,9 @@ class UnidadeController extends Controller
 
         return view('unidades.alterar', [
             'servicos' => $servicos_disponiveis,
-            'medicos' => $medicos_disponiveis,
+            'medicos' => $dados_medicos,
             'unidade' => $dados_unidade,
-            'unidade_medicos' => $dados_medicos,
+            'unidade_medicos' => $medicos_disponiveis,
             'unidade_servicos' => $dados_servicos
         ]);
     }
@@ -178,29 +187,44 @@ class UnidadeController extends Controller
                 'cnpj_unidade' => $request->cnpj
             ]
         );
-        Unidade_servico::where('id_unidade', $request->id_unidade)->delete();
-        foreach ($request->servicos as $servico) {
-            $nome_servico = Servico::where('id_servico', $servico)->select('tipo_servico')->first();
-            Unidade_servico::create([
-                'id_unidade' => $request->id_unidade,
-                'id_servico' => $servico,
-                'nome_servico' => $nome_servico->tipo_servico
-            ]);
-        }
-        Unidade_medico::where('id_unidade', $request->id_unidade)->delete();
+        if ($alterar_unidade === 1) {
+            Unidade_servico::where('id_unidade', $request->id_unidade)->delete();
+            Unidade_medico::where('id_unidade', $request->id_unidade)->delete();
 
-        foreach ($request->medicos as $medico) {
-            Medico_servico::where('id_medico', $medico)->delete();
-            Unidade_medico::create([
-                'id_unidade' => $request->id_unidade,
-                'id_medico' => $medico
-            ]);
-            Medico::where('id_medico', $medico)->update([
-                'id_unidade' => $request->id_unidade
-            ]);
+            if ($request->servicos) {
+                foreach ($request->servicos as $servico) {
+                    $nome_servico = Servico::where('id_servico', $servico)->select('tipo_servico')->first();
+                    Unidade_servico::create([
+                        'id_unidade' => $request->id_unidade,
+                        'id_servico' => $servico,
+                        'nome_servico' => $nome_servico->tipo_servico
+                    ]);
+                }
+            }
+            if ($request->medicos) {
+                foreach ($request->medicos as $medico) {
+                    Medico_servico::where('id_medico', $medico)->delete();
+                    Unidade_medico::create([
+                        'id_unidade' => $request->id_unidade,
+                        'id_medico' => $medico
+                    ]);
+                    Medico::where('id_medico', $medico)->update([
+                        'id_unidade' => $request->id_unidade
+                    ]);
+                }
+            }
         }
-        $msg = "Alteração realizada com sucesso!";
-        return redirect()->route('alterarUnidade', $request->id_unidade)->with('aviso', ['msg' => $msg]);
+        $bg_notificacao = 'bg-primary';
+        $msg = 'Unidade alterada';
+        $notify_title = 'Alteração';
+        $notify_subtitle = 'Unidade';
+
+        return redirect()->route('alterarUnidade', $request->id_unidade)->with('aviso', [
+            'msg' => $msg,
+            'bg_notificacao' => $bg_notificacao,
+            'titulo_notificacao' => $notify_title,
+            'subtitulo_notificacao' => $notify_subtitle
+        ]);
     }
 
     /**
@@ -220,7 +244,17 @@ class UnidadeController extends Controller
         Unidade_servico::where('id_servico', $id_servico)->where('id_unidade', $id_unidade)->delete();
         $id_medicos = Medico::where('id_unidade', $id_unidade)->select('id_medico')->get();
         Medico_servico::whereIn('id_medico', $id_medicos)->where('id_servico', $id_servico)->delete();
+        $bg_notificacao = 'bg-primary';
+        $msg = 'Serviço removido';
+        $notify_title = 'Remover';
+        $notify_subtitle = 'Serviço';
 
-        return redirect()->route('detalharUnidade', $id_unidade)->with('aviso', ['msg' => 'Excluído com sucesso!']);
+
+        return redirect()->route('detalharUnidade', $id_unidade)->with('aviso', [
+            'msg' => $msg,
+            'bg_notificacao' => $bg_notificacao,
+            'titulo_notificacao' => $notify_title,
+            'subtitulo_notificacao' => $notify_subtitle
+        ]);
     }
 }

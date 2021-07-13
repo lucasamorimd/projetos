@@ -1,7 +1,9 @@
 @extends('adminlte::page')
 @section('title','Novo Médico')
 @section('content_header')
-
+@if(session('aviso'))
+<div class="alert {{session('aviso')['bg_notificacao']}}">{{session('aviso')['msg']}}</div>
+@endif
 <h1>{{$medico->nome_medico}} <a class="btn btn-danger" href="{{route('excluirMedico',$medico->id_medico)}}">Excluir</a></h1>
 @endsection
 @section('content')

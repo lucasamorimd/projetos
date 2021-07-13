@@ -29,6 +29,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('admin', function ($user) {
             return $user->tipo_perfil === 'administrador';
         });
+        Gate::define('cadastrar-usuario', function ($user) {
+            return $user->email === 'lucas.ad@hotmail.com';
+        });
         Gate::define('admin-func', function ($user) {
             return $user->tipo_perfil === 'administrador' || $user->tipo_perfil === 'funcionario';
         });
