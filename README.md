@@ -1,4 +1,7 @@
 ## Gerenciador do sistema
+
+<a href="https://clinicaadmin.lad566.com.br">Demonstração do sistema </a>
+
 Essa parte do sistema está sendo desenvolvido para realizar
 a interação entre a clínica e o sistema voltado para o paciente. Desenvolvido em laravel,
 utilizando o template AdminLTE.
@@ -8,7 +11,9 @@ utilizando o template AdminLTE.
 ## Funcionário
 - Perfil: funcionario
 - Terá atribuições simples de gerenciar agendamento e visualizar outras configurações
-
+- Login: funcionario1@clinica.com
+- Senha: funcionario1
+- Possui 3 funcionários diferentes bastando apenas mudar o número no email e na senha indo de 1 a 3
 ## Administrador
 - Perfil : administrador
 - Terá todas as atribuições
