@@ -90,23 +90,25 @@ class MedicoController extends Controller
                 ]);
             }
         }
+
         Unidade_medico::create([
             'id_unidade' => $request->unidade,
             'id_medico' => $novo_medico->id
         ]);
 
+
+        $bg_notificacao = 'success';
+        $msg = 'Médico cadastrado';
         $notify_title = 'Cadastro';
         $notify_subtitle = 'Médico';
-
-        $msg = 'Médico Cadastrado!';
-        $bg_notificacao = 'bg-primary';
-
-        return redirect()->route('medicos')->with('aviso', [
+        $route = route('medicos');
+        return  [
             'msg' => $msg,
             'bg_notificacao' => $bg_notificacao,
             'titulo_notificacao' => $notify_title,
-            'subtitulo_notificacao' => $notify_subtitle
-        ]);
+            'subtitulo_notificacao' => $notify_subtitle,
+            'route' => $route
+        ];
     }
 
     /**
@@ -207,33 +209,28 @@ class MedicoController extends Controller
                 'area_atuacao' => $request->area_atuacao
             ]);
         Medico_servico::where('id_medico', $request->id_medico)->delete();
-        foreach ($request->servicos as $servico) {
-            $nome_servico = Servico::where('id_servico', $servico)->select('tipo_servico')->first();
-            Medico_servico::create([
-                'id_medico' => $request->id_medico,
-                'id_servico' => $servico,
-                'nome_servico' => $nome_servico->tipo_servico
-            ]);
+
+        if ($request->servicos) {
+            foreach ($request->servicos as $servico) {
+                $nome_servico = Servico::where('id_servico', $servico)->select('tipo_servico')->first();
+                Medico_servico::create([
+                    'id_medico' => $request->id_medico,
+                    'id_servico' => $servico,
+                    'nome_servico' => $nome_servico->tipo_servico
+                ]);
+            }
         }
 
-        if ($alteracao_medico === 1) {
-            $msg = "Médico alterado com sucesso!";
-            $bg_notificacao = 'bg-primary';
-        } else {
-            $msg = "Houve algum problema na alteração, tente novamente";
-            $bg_notificacao = 'bg-danger';
-        }
-
-        $notify_title = 'Cadastro';
+        $bg_notificacao = 'success';
+        $msg = 'Médico alterado';
+        $notify_title = 'Alteração';
         $notify_subtitle = 'Médico';
-
-
-        return redirect()->route('alterarMedico', $request->id_medico)->with('aviso', [
+        return  [
             'msg' => $msg,
             'bg_notificacao' => $bg_notificacao,
             'titulo_notificacao' => $notify_title,
             'subtitulo_notificacao' => $notify_subtitle
-        ]);
+        ];
     }
 
     /**

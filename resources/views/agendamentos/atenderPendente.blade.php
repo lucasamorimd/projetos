@@ -9,6 +9,9 @@
 @endsection
 @section('content')
 
+<div class="alert alert-danger print-error-msg" style="display:none">
+    <ul></ul>
+</div>
 <div class="card">
     <div class="card-header">
         <h2 class="text-center">Formulário de Atendimento</h2>
@@ -16,7 +19,7 @@
     <div class="card-body">
         <div class="row  justify-content-center">
             <div class="col">
-                <form enctype="multipart/form-data" id="atender_pendente" action="{{route('salvarAtendimento')}}" method="POST">
+                <form enctype="multipart/form-data" id="cadastrar" action="{{route('salvarAtendimento')}}" method="POST">
                     @csrf
                     <h4 class="text-center"> informações do paciente</h4>
                     <hr />
@@ -216,18 +219,11 @@
                 </form>
             </div>
         </div>
-        <div class="card-footer text-muted text-center">
-            <button class="btn btn-primary" type="submit" onclick="atender_pendente()">Salvar</button>
-        </div>
+        @include('components.button_cadastrar')
     </div>
 </div>
 
 @endsection
 @section('js')
-<script>
-    function atender_pendente() {
-        var form = document.getElementById('atender_pendente')
-        form.submit()
-    }
-</script>
+@include('components.cadastrar_ajax')
 @endsection

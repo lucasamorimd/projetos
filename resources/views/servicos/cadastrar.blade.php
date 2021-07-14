@@ -10,9 +10,10 @@
         <h4 class="text-center">Formulário de Cadastro de Serviço</h4>
     </div>
     <div class="card-body">
+        @include('components.validation')
         <div class="row  justify-content-center">
             <div class="col">
-                <form id="cadastrar_servico" action="{{route('salvarServico')}}" method="POST">
+                <form id="cadastrar" action="{{route('salvarServico')}}" method="POST">
                     @csrf
                     <div class="form-group row">
                         <label for="nome" class="col-sm-2 col-form-label">Nome</label>
@@ -97,18 +98,11 @@
                 </form>
             </div>
         </div>
-        <div class="card-footer text-muted text-center">
-            <button class="btn btn-primary" type="submit" onclick="cadastrar_servico()">Salvar</button>
-        </div>
+        @include('components.button_cadastrar')
     </div>
 </div>
 
 @endsection
 @section('js')
-<script>
-    function cadastrar_servico() {
-        var form = document.getElementById('cadastrar_servico')
-        form.submit()
-    }
-</script>
+@include('components.cadastrar_ajax')
 @endsection

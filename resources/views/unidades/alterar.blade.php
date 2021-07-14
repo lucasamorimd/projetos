@@ -3,9 +3,7 @@
 {{$unidade->nome_unidade}}
 @endsection
 @section('content_header')
-@if(session('aviso'))
-<div class="alert {{session('aviso')['bg_notificacao']}}">{{session('aviso')['msg']}}</div>
-@endif
+
 <h1>Informações de Unidade</h1>
 @endsection
 @section('content')
@@ -17,7 +15,7 @@
     <div class="card-body">
         <div class="row  justify-content-center">
             <div class="col">
-                <form id="cadastrar_unidade" action="{{route('salvarAlteracaoUnidade')}}" method="POST">
+                <form id="alterar" action="{{route('salvarAlteracaoUnidade')}}" method="POST">
                     @csrf
 
                     <div class="form-group row">
@@ -94,7 +92,7 @@
                             <div class="custom-control custom-checkbox">
                                 <input name="servicos[]" class="custom-control-input" type="checkbox" value="{{$servico->id_servico}}" id="servicoCheck{{$servico->id_servico}}" checked>
                                 <label class="custom-control-label" for="servicoCheck{{$servico->id_servico}}">
-                                    {{$servico->nome_servico}}
+                                    {{$servico->nome_servico}} ({{ucfirst($servico->tipo_servico)}})
                                 </label>
                             </div>
                             @endforeach
@@ -102,7 +100,7 @@
                             <div class="custom-control custom-checkbox">
                                 <input name="servicos[]" class="custom-control-input" type="checkbox" value="{{$servico->id_servico}}" id="servicoCheck{{$servico->id_servico}}">
                                 <label class="custom-control-label" for="servicoCheck{{$servico->id_servico}}">
-                                    {{$servico->nome_servico}}
+                                    {{$servico->nome_servico}} ({{ucfirst($servico->tipo_servico)}})
                                 </label>
                             </div>
                             @endforeach
@@ -119,7 +117,7 @@
                             <div class="custom-control custom-checkbox">
                                 <input name="medicos[]" class="custom-control-input" type="checkbox" value="{{$medico->id_medico}}" id="medicoCheck{{$medico->id_medico}}" checked>
                                 <label class="custom-control-label" for="medicoCheck{{$medico->id_medico}}">
-                                    {{$medico->nome_medico}}
+                                    {{$medico->nome_medico}} ({{$medico->area_atuacao}})
                                 </label>
                             </div>
                             @endforeach
@@ -127,7 +125,7 @@
                             <div class="custom-control custom-checkbox">
                                 <input name="medicos[]" class="custom-control-input" type="checkbox" value="{{$medico->id_medico}}" id="medicoCheck{{$medico->id_medico}}">
                                 <label class="custom-control-label" for="medicoCheck{{$medico->id_medico}}">
-                                    {{$medico->nome_medico}}
+                                    {{$medico->nome_medico}} ({{$medico->area_atuacao}})
                                 </label>
                             </div>
                             @endforeach
@@ -143,18 +141,16 @@
                 </form>
             </div>
         </div>
-        <div class="card-footer text-muted text-center">
-            <button class="btn btn-primary" type="submit" onclick="cadastrar_unidade()">Salvar</button>
-        </div>
+        @include('components.button_alterar')
     </div>
 </div>
 
 @endsection
 @section('js')
-<script>
-    function cadastrar_unidade() {
-        var form = document.getElementById('cadastrar_unidade')
-        form.submit()
-    }
-</script>
+@include('components.alterar_ajax')
 @endsection
+@if(session('aviso'))
+@section('js')
+@include('components.toast')
+@endsection
+@endif

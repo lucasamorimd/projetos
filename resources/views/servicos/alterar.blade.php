@@ -17,7 +17,7 @@
     <div class="card-body">
         <div class="row  justify-content-center">
             <div class="col">
-                <form id="alterar_servico" action="{{route('salvarAlteracaoServico')}}" method="POST">
+                <form id="alterar" action="{{route('salvarAlteracaoServico')}}" method="POST">
                     @csrf
 
                     <div class="form-group row">
@@ -160,18 +160,11 @@
                 </form>
             </div>
         </div>
-        <div class="card-footer text-muted text-center">
-            <button class="btn btn-primary" type="submit" onclick="alterar_servico()">Salvar</button>
-        </div>
+        @include('components.button_alterar')
     </div>
 </div>
 
 @endsection
 @section('js')
-<script>
-    function alterar_servico() {
-        var form = document.getElementById('alterar_servico')
-        form.submit()
-    }
-</script>
+@include('components.alterar_ajax')
 @endsection

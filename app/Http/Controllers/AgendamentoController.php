@@ -164,20 +164,20 @@ class AgendamentoController extends Controller
                 'id_prontuario' => $novo_prontuario->id,
                 'situacao' => 'realizado'
             ]);
-
-            $msg = 'Atendimento finalizado!';
-            $bg_notificacao = 'bg-primary';
-        } else {
-            $msg = 'Erro na finalização!';
-            $bg_notificacao = 'bg-danger';
         }
         $request->arquivo_prontuario->storeAs('public/prontuarios', $nome_arquivo);
-        return redirect()->route('agendamentos', 'realizados')->with('aviso', [
+        $bg_notificacao = 'success';
+        $msg = 'Atendimento Finalizado';
+        $notify_title = $request->nome_servico;
+        $notify_subtitle = ucfirst($request->tipo_servico);
+        $route = route('agendamentos', 'realizados');
+        return  [
             'msg' => $msg,
             'bg_notificacao' => $bg_notificacao,
             'titulo_notificacao' => $notify_title,
-            'subtitulo_notificacao' => $notify_subtitle
-        ]);
+            'subtitulo_notificacao' => $notify_subtitle,
+            'route' => $route
+        ];
     }
 
     /**

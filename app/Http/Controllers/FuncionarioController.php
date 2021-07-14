@@ -57,26 +57,18 @@ class FuncionarioController extends Controller
             'tipo_perfil' => $request->perfil
         ]);
 
+        $bg_notificacao = 'success';
+        $msg = 'Funcionário Cadastrado';
         $notify_title = 'Cadastro';
-        $notify_subtitle = 'Funcionário';
-
-        if ($novo_funcionario) {
-            $msg = 'Funcionário Cadastrado!';
-            $bg_notificacao = 'bg-primary';
-        } else {
-            $bg_notificacao = 'bg-danger';
-            $msg = 'Erro no cadastro!';
-        }
-
-        return redirect()->route('funcionarios')->with(
-            'aviso',
-            [
-                'msg' => $msg,
-                'bg_notificacao' => $bg_notificacao,
-                'titulo_notificacao' => $notify_title,
-                'subtitulo_notificacao' => $notify_subtitle
-            ]
-        );
+        $notify_subtitle = 'Funcionários';
+        $route = route('funcionarios');
+        return  [
+            'msg' => $msg,
+            'bg_notificacao' => $bg_notificacao,
+            'titulo_notificacao' => $notify_title,
+            'subtitulo_notificacao' => $notify_subtitle,
+            'route' => $route
+        ];
     }
 
     /**

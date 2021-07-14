@@ -108,4 +108,4 @@ Route::prefix('funcionarios')->group(function () {
     Route::get('/alterar-funcionario/{id}', [FuncionarioController::class, 'edit'])->name('alterarFuncionario');
 });
 
-Route::get('/download/{id_user}/{nome_arquivo}', [ProntuarioController::class, 'baixarPDF']);
+Route::get('/download/{id_user}/{nome_arquivo}/{token}', [ProntuarioController::class, 'baixarPDF']);

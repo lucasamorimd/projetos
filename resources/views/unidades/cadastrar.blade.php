@@ -10,9 +10,10 @@
         <h4 class="text-center">Formulário de Cadastro de Unidade</h4>
     </div>
     <div class="card-body">
+        @include('components.validation')
         <div class="row  justify-content-center">
             <div class="col">
-                <form id="cadastrar_unidade" action="{{route('salvarUnidade')}}" method="POST">
+                <form id="cadastrar" action="{{route('salvarUnidade')}}" method="POST">
                     @csrf
                     <div class="form-group row">
                         <label for="nome" class="col-sm-2 col-form-label">Nome</label>
@@ -103,18 +104,11 @@
                 </form>
             </div>
         </div>
-        <div class="card-footer text-muted text-center">
-            <button class="btn btn-primary" type="submit" onclick="cadastrar_unidade()">Salvar</button>
-        </div>
+        @include('components.button_cadastrar')
     </div>
 </div>
 
 @endsection
 @section('js')
-<script>
-    function cadastrar_unidade() {
-        var form = document.getElementById('cadastrar_unidade')
-        form.submit()
-    }
-</script>
+@include('components.cadastrar_ajax')
 @endsection

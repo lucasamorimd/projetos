@@ -10,9 +10,10 @@
         <h4 class="text-center">Formulário de Cadastro de Funcionário</h4>
     </div>
     <div class="card-body">
+        @include('components.validation')
         <div class="row  justify-content-center">
             <div class="col">
-                <form id="cadastrar_func" action="{{route('salvarFuncionario')}}" method="POST">
+                <form id="cadastrar" action="{{route('salvarFuncionario')}}" method="POST">
                     @csrf
                     <div class="form-group row">
                         <label for="nome" class="col-sm-2 col-form-label">Nome</label>
@@ -40,7 +41,7 @@
                     <div class="form-group row">
                         <label for="senha" class="col-sm-2 col-form-label">Senha</label>
                         <div class="col-sm-10">
-                            <input name="senha" id="senha" type="password" class="form-control ">
+                            <input name="senha" id="senha" min="4" type="password" class="form-control ">
                             @error('senha')
                             <div class="alert alert-danger">
                                 {{$message}}
@@ -98,18 +99,11 @@
                 </form>
             </div>
         </div>
-        <div class="card-footer text-muted text-center">
-            <button class="btn btn-primary" type="submit" onclick="cadastrar_func()">Salvar</button>
-        </div>
+        @include('components.button_cadastrar')
     </div>
 </div>
 
 @endsection
 @section('js')
-<script>
-    function cadastrar_func() {
-        var form = document.getElementById('cadastrar_func')
-        form.submit()
-    }
-</script>
+@include('components.cadastrar_ajax')
 @endsection

@@ -10,9 +10,10 @@
         <h4 class="text-center">Formulário de Cadastro de Médico</h4>
     </div>
     <div class="card-body">
+        @include('components.validation')
         <div class="row  justify-content-center">
             <div class="col">
-                <form id="cadastrar_medico" action="{{route('salvarMedico')}}" method="POST">
+                <form id="cadastrar" action="{{route('salvarMedico')}}" method="POST">
                     @csrf
                     <div class="form-group row">
                         <label for="nome" class="col-sm-2 col-form-label">Nome</label>
@@ -74,14 +75,13 @@
                 </form>
             </div>
         </div>
-        <div class="card-footer text-muted text-center">
-            <button class="btn btn-primary" type="submit" onclick="cadastrar_medico()">Salvar</button>
-        </div>
+        @include('components.button_cadastrar')
     </div>
 </div>
 
 @endsection
 @section('js')
+@include('components.cadastrar_ajax')
 <script>
     var unidade = document.getElementById('unidade');
     unidade.addEventListener('change', function() {
@@ -140,10 +140,5 @@
             }
         })
     })
-
-    function cadastrar_medico() {
-        var form = document.getElementById('cadastrar_medico')
-        form.submit()
-    }
 </script>
 @endsection

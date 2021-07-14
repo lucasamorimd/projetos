@@ -76,18 +76,18 @@ class UnidadeController extends Controller
                 ]);
             }
         }
-        $bg_notificacao = 'bg-primary';
-        $msg = 'Unidade cadastrada';
-        $notify_title = 'Cadastrar';
+        $bg_notificacao = 'success';
+        $msg = 'Unidade Cadastrada';
+        $notify_title = 'Cadastro';
         $notify_subtitle = 'Unidade';
-
-        $msg = "Unidade cadastrada";
-        return redirect()->route('unidades')->with('aviso', [
+        $route = route('unidades');
+        return  [
             'msg' => $msg,
             'bg_notificacao' => $bg_notificacao,
             'titulo_notificacao' => $notify_title,
-            'subtitulo_notificacao' => $notify_subtitle
-        ]);
+            'subtitulo_notificacao' => $notify_subtitle,
+            'route' => $route
+        ];
     }
 
     /**
@@ -187,6 +187,7 @@ class UnidadeController extends Controller
                 'cnpj_unidade' => $request->cnpj
             ]
         );
+
         if ($alterar_unidade === 1) {
             Unidade_servico::where('id_unidade', $request->id_unidade)->delete();
             Unidade_medico::where('id_unidade', $request->id_unidade)->delete();
@@ -214,17 +215,17 @@ class UnidadeController extends Controller
                 }
             }
         }
-        $bg_notificacao = 'bg-primary';
+        $bg_notificacao = 'success';
         $msg = 'Unidade alterada';
         $notify_title = 'Alteração';
         $notify_subtitle = 'Unidade';
 
-        return redirect()->route('alterarUnidade', $request->id_unidade)->with('aviso', [
+        return  [
             'msg' => $msg,
             'bg_notificacao' => $bg_notificacao,
             'titulo_notificacao' => $notify_title,
             'subtitulo_notificacao' => $notify_subtitle
-        ]);
+        ];
     }
 
     /**
@@ -244,7 +245,7 @@ class UnidadeController extends Controller
         Unidade_servico::where('id_servico', $id_servico)->where('id_unidade', $id_unidade)->delete();
         $id_medicos = Medico::where('id_unidade', $id_unidade)->select('id_medico')->get();
         Medico_servico::whereIn('id_medico', $id_medicos)->where('id_servico', $id_servico)->delete();
-        $bg_notificacao = 'bg-primary';
+        $bg_notificacao = 'success';
         $msg = 'Serviço removido';
         $notify_title = 'Remover';
         $notify_subtitle = 'Serviço';

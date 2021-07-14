@@ -26,7 +26,7 @@ class FuncionarioStoreRequest extends FormRequest
         return [
             'nome' => ['required', 'string', 'max:100'],
             'email' => ['required', 'string', 'email', 'max:200', 'unique:funcionarios'],
-            'senha' => ['required', 'string', 'min:4', 'confirmed'],
+            'senha' => ['required', 'confirmed', 'string', 'min:4'],
             'senha_confirmation' => ['required'],
             'unidade' => ['required'],
             'perfil' => ['required']
@@ -43,7 +43,7 @@ class FuncionarioStoreRequest extends FormRequest
             'senha.required' => 'Informe a senha para o Funcionário novo',
             'senha.min' => 'A senha deve ter no mínimo 4 caracteres',
             'senha.confirmed' => 'Confirmação de senha não bate',
-            'senha.required' => 'Confirme a senha para prosseguir',
+            'senha_confirmation.required' => 'Confirme a senha para prosseguir',
             'unidade.required' => 'Selecione uma das Unidades cadastradas',
             'perfil.required' => 'Selecione um perfil'
         ];

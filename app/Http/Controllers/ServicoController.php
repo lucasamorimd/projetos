@@ -90,12 +90,18 @@ class ServicoController extends Controller
             $bg_notificacao = 'bg-danger';
         }
 
-        return redirect()->route('servicos')->with('aviso', [
+        $bg_notificacao = 'success';
+        $msg = 'Serviço Cadastrado';
+        $notify_title = 'Cadastro';
+        $notify_subtitle = 'Serviços';
+        $route = route('servicos');
+        return  [
             'msg' => $msg,
             'bg_notificacao' => $bg_notificacao,
             'titulo_notificacao' => $notify_title,
-            'subtitulo_notificacao' => $notify_subtitle
-        ]);
+            'subtitulo_notificacao' => $notify_subtitle,
+            'route' => $route
+        ];
     }
 
     /**
@@ -210,20 +216,19 @@ class ServicoController extends Controller
                     }
                 }
             }
-            $msg = 'Serviço alterado com sucesso';
-            $bg_notificacao = 'bg-primary';
         }
 
-
+        $bg_notificacao = 'success';
+        $msg = 'Serviço alterado';
         $notify_title = 'Alteração';
         $notify_subtitle = 'Serviço';
 
-        return redirect()->route('alterarServico', $request->id_servico)->with('aviso', [
+        return  [
             'msg' => $msg,
             'bg_notificacao' => $bg_notificacao,
             'titulo_notificacao' => $notify_title,
             'subtitulo_notificacao' => $notify_subtitle
-        ]);
+        ];
     }
 
     /**

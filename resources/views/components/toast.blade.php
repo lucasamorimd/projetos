@@ -1,5 +1,5 @@
 <script>
-    $(document).Toasts('create', {
+    /*$(document).Toasts('create', {
         class: '{{session("aviso")["bg_notificacao"]}}',
         title: '{{session("aviso")["titulo_notificacao"]}} ',
         subtitle: ' - {{session("aviso")["subtitulo_notificacao"]}} ',
@@ -8,5 +8,12 @@
         delay: 5000,
         fixed: false,
         position: 'topLeft'
+    })*/
+    Swal.fire({
+        position: 'top-end',
+        type: '{{session("aviso")["bg_notificacao"]}}',
+        title: '{{session("aviso")["msg"]}}',
+        showConfirmButton: false,
+        timer: 1500
     })
 </script>

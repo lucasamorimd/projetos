@@ -24,7 +24,20 @@ class MedicoStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'nome' => ['required', 'string', 'min:5'],
+            'crm' => ['required'],
+            'area_atuacao' => ['required'],
+            'unidade' => ['required']
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'nome.required' => 'Informe o nome do médico',
+            'crm.required' => 'Informe a crendencial do méido',
+            'area_atuacao.required' => 'Qual a área de formação do médico?',
+            'unidade.required' => 'Selecione uma unidade onde o médico atuará'
         ];
     }
 }
