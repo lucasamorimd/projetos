@@ -57,7 +57,7 @@
                     <li><a class="nav-link scrollto " href="#portfolio">Galeria</a></li>
                     <li><a class="nav-link scrollto" href="#team">Time de Médicos</a></li>
                     <li><a class="nav-link scrollto" href="#contact">Entre em contato</a></li>-->
-                    <li class="dropdown"><a href="#"><span>Serviços</span> <i class="bi bi-chevron-down"></i></a>
+                    <li class="dropdown"><a href="#"><span>Agendar</span> <i class="bi bi-chevron-down"></i></a>
                         <ul>
                             <li><a href="<?= $base ?>/unidades/exames">Agendar Exame</a></li>
                             <li><a href="<?= $base ?>/unidades/procedimentos">Agendar Procedimento</a></li>
@@ -65,19 +65,19 @@
 
                         </ul>
                     </li>
-                    <li class="dropdown"><a href="#"><span>Realizados</span> <i class="bi bi-chevron-down"></i></a>
+                    <li class="dropdown"><a href="#"><span>Marcados</span> <i class="bi bi-chevron-down"></i></a>
                         <ul>
-                            <li><a href="<?= $base ?>/exames/realizados">Exames</a></li>
-                            <li><a href="<?= $base ?>/procedimentos/realizados">Procedimentos</a></li>
-                            <li><a href="<?= $base ?>/consultas/realizados">Consultas</a></li>
+                            <li><a href="<?= $base ?>/exames/agendados">Exames Marcados</a></li>
+                            <li><a href="<?= $base ?>/procedimentos/agendados">Procedimentos Marcados</a></li>
+                            <li><a href="<?= $base ?>/consultas/agendados">Consultas Marcados</a></li>
+
                         </ul>
                     </li>
-                    <li class="dropdown"><a href="#"><span>Agendados</span> <i class="bi bi-chevron-down"></i></a>
+                    <li class="dropdown"><a href="#"><span>Realizados</span> <i class="bi bi-chevron-down"></i></a>
                         <ul>
-                            <li><a href="<?= $base ?>/exames/agendados">Exames</a></li>
-                            <li><a href="<?= $base ?>/procedimentos/agendados">Procedimentos</a></li>
-                            <li><a href="<?= $base ?>/consultas/agendados">Consultas</a></li>
-
+                            <li><a href="<?= $base ?>/exames/realizados">Exames Realizados</a></li>
+                            <li><a href="<?= $base ?>/procedimentos/realizados">Procedimentos Realizados</a></li>
+                            <li><a href="<?= $base ?>/consultas/realizados">Consultas Realizados</a></li>
                         </ul>
                     </li>
                 </ul>

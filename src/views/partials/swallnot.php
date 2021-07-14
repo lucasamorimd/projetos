@@ -8,6 +8,6 @@
                 } ?>',
         title: '<?= $_SESSION['swal'] ?>',
         showConfirmButton: false,
-        timer: 1500
+        timer: 2500
     })
 </script>
