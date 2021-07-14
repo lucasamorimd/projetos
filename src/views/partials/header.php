@@ -14,8 +14,8 @@
     <link href="<?= $base ?>/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
-    <link href="<?=$base?>/assets/css/google-fonts.css" rel="stylesheet">
-    <link href="<?=$base?>/assets/css/material-icons.css" rel="stylesheet">
+    <link href="<?= $base ?>/assets/css/google-fonts.css" rel="stylesheet">
+    <link href="<?= $base ?>/assets/css/material-icons.css" rel="stylesheet">
 
     <!-- Vendor CSS Files -->
     <link href="<?= $base ?>/assets/vendor/aos/aos.css" rel="stylesheet">
@@ -59,27 +59,25 @@
                     <li><a class="nav-link scrollto" href="#contact">Entre em contato</a></li>-->
                     <li class="dropdown"><a href="#"><span>Serviços</span> <i class="bi bi-chevron-down"></i></a>
                         <ul>
-                            <li class="dropdown"><a href="#"><span>Exames</span> <i class="bi bi-chevron-right"></i></a>
-                                <ul>
-                                    <li><a href="<?= $base ?>/unidades/exames">Agendar Exame</a></li>
-                                    <li><a href="<?= $base ?>/exames/agendados">Agendados</a></li>
-                                    <li><a href="<?= $base ?>/exames/realizados">Realizados</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown"><a href="#"><span>Consultas</span> <i class="bi bi-chevron-right"></i></a>
-                                <ul>
-                                    <li><a href="<?= $base ?>/unidades/consultas">Agendar Consulta</a></li>
-                                    <li><a href="<?= $base ?>/consultas/agendados">Agendadas</a></li>
-                                    <li><a href="<?= $base ?>/consultas/realizados">Realizadas</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown"><a href="#"><span>Procedimentos</span> <i class="bi bi-chevron-right"></i></a>
-                                <ul>
-                                    <li><a href="<?= $base ?>/unidades/procedimentos">Agendar Procedimento</a></li>
-                                    <li><a href="<?= $base ?>/procedimentos/agendados">Agendados</a></li>
-                                    <li><a href="<?= $base ?>/procedimentos/realizados">Realizados</a></li>
-                                </ul>
-                            </li>
+                            <li><a href="<?= $base ?>/unidades/exames">Agendar Exame</a></li>
+                            <li><a href="<?= $base ?>/unidades/procedimentos">Agendar Procedimento</a></li>
+                            <li><a href="<?= $base ?>/unidades/consultas">Agendar Consulta</a></li>
+
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a href="#"><span>Realizados</span> <i class="bi bi-chevron-down"></i></a>
+                        <ul>
+                            <li><a href="<?= $base ?>/exames/realizados">Exames</a></li>
+                            <li><a href="<?= $base ?>/procedimentos/realizados">Procedimentos</a></li>
+                            <li><a href="<?= $base ?>/consultas/realizados">Consultas</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a href="#"><span>Agendados</span> <i class="bi bi-chevron-down"></i></a>
+                        <ul>
+                            <li><a href="<?= $base ?>/exames/agendados">Exames</a></li>
+                            <li><a href="<?= $base ?>/procedimentos/agendados">Procedimentos</a></li>
+                            <li><a href="<?= $base ?>/consultas/agendados">Consultas</a></li>
+
                         </ul>
                     </li>
                 </ul>

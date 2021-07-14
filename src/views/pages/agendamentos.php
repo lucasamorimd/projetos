@@ -1,4 +1,10 @@
 <?php $render('header'); ?>
+<?php if ($_SESSION['swal']) : ?>
+    <?php $render('swallnot'); ?>
+<?php
+    $_SESSION['type'] = null;
+    $_SESSION['swal'] = null;
+endif; ?>
 <main id="main">
     <section class="breadcrumbs">
         <div class="container">

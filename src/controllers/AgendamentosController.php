@@ -51,8 +51,12 @@ class AgendamentosController extends Controller
 
                 ]
             )->execute();
+            $_SESSION['type'] = 'success';
+            $_SESSION['swal'] = ucfirst($params['nome_atendimento']) . " agendado com sucesso!";
             $this->redirect('/' . $params['tipo_atendimento'] . '/agendados');
         }
+        $_SESSION['type'] = 'error';
+        $_SESSION['swal'] = "Houve algum erro no agendamento!";
         $this->redirect('/unidades/' . $params['id_unidade'] . '/exames/' . $params['id_servico'] . '/agendar');
     }
     public function solicitar($id)
