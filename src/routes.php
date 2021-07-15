@@ -33,5 +33,6 @@ $router->post('/gethorarios/servico', 'AgendamentosController@horariosAjax');
 //ACTIONS DE AGENDAR SERVICO
 $router->post('/agendar-servico', 'AgendamentosController@agendarServico');
 
-//PÁGINAS DE LISTAGEM DE EXAMES
+//PÁGINAS DE LISTAGEM DE AGENDAMENTOS
 $router->get('/{servico}/{situacao}', 'AgendamentosController@listarServico');
+$router->post('/cancelar-agendamento', 'AgendamentosController@cancelarAgendamento');

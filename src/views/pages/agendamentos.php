@@ -58,14 +58,31 @@ endif; ?>
         <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Paciente <?= $modalAgendamento['nome_paciente'] ?></h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Paciente <?= $modalAgendamento['nome_paciente'] ?>
+
+                    </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="card card-nav-tabs">
-                        <h4 class="card-header card-header-info"><?= $modalAgendamento['nome_atendimento'] ?></h4>
+                        <h4 class="card-header card-header-info"><?= $modalAgendamento['nome_atendimento'] ?>
+                            <?php if ($situacao === 'pendente') : ?>
+                                <button type="button" class="btn btn-danger" onclick="event.preventDefault(); 
+                            swalCancelar({
+
+                                base:'<?= $base ?>', 
+                                idAgendamento:'<?= $modalAgendamento['id_agendamento'] ?>',
+                                tipoAgendamento:'<?= $tipo_atendimento ?>', 
+                                idUsuario:'<?= $usuario_dados->id_usuario ?>',
+                                nomeAtendimento:'<?= $modalAgendamento['nome_atendimento'] ?>'
+                                
+                                        })">
+                                    Cancelar
+                                </button>
+                            <?php endif; ?>
+                        </h4>
                         <div class="card-body">
-                            <h4 class="card-title">Exame</h4>
+                            <h4 class="card-title"><?= ucfirst($modalAgendamento['tipo_atendimento']) ?></h4>
                             <p class="card-text"><?= $modalAgendamento['descricao_servico'] ?></p>
                             <div class="row">
 
@@ -172,6 +189,6 @@ endif; ?>
     </div>
 
 <?php endforeach; ?>
-<script src="<?= $base ?>/assets/js/functions.js"></script>
+<script src="<?= $base ?>/assets/js/confirm_functions.js"></script>
 <?php $render('footer'); ?>
 <?php $render('scripts'); ?>

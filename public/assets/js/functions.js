@@ -61,21 +61,32 @@ async function selecionarMedico(data) {
 
 function selecionarHora(dados) {
     var data_atendimento = document.getElementById('selectData').value;
-    if (!data_atendimento) {
-        Swal.fire(`Escolha primeiro uma data!!`)
+    var id_medico = document.getElementById('id_medico').value;
+    if (id_medico) {
+        console.log(id_medico)
+        if (!data_atendimento) {
+            Swal.fire(`Escolha primeiro uma data!!`)
+        } else {
+            $.ajax({
+                url: dados.base + '/gethorarios/servico',
+                type: 'post',
+                // dataType: 'json',
+                data: {
+                    key: data_atendimento,
+                    idUnidade: dados.idUnidade,
+                    idServico: dados.idServico,
+                    nomeServico: dados.nomeServico,
+                    idMedico: id_medico
+                },
+                success: function (resultado) {
+                    swalHorario(resultado)
+                }
+
+            });
+        }
     } else {
-        $.ajax({
-            url: dados.base + '/gethorarios/servico',
-            type: 'post',
-            // dataType: 'json',
-            data: { key: data_atendimento, idUnidade: dados.idUnidade, idServico: dados.idServico, nomeServico: dados.nomeServico },
-            success: function (resultado) {
-                swalHorario(resultado)
-            }
-
-        });
+        Swal.fire(`Escolha um médico!`)
     }
-
 }
 
 async function swalHorario(data) {
@@ -104,10 +115,4 @@ async function swalHorario(data) {
         Swal.fire(`Data selecionada: ${data.horarios[hora]}`)
         button.value = data.horarios[hora]
     }
-}
-function verificaDadosForm() {
-    var form = new FormData($('#formSolicitarExame')[0])
-}
-function detalharAgendamento(id_agendamento) {
-
 }

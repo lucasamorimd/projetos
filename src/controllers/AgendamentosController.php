@@ -81,7 +81,7 @@ class AgendamentosController extends Controller
     public function horariosAjax()
     {
 
-        $horarios = handlerAgendamento::getHorarios($_POST['key'], $_POST['idUnidade'], $_POST['idServico'], $_POST['nomeServico']);
+        $horarios = handlerAgendamento::getHorarios($_POST['key'], $_POST['idUnidade'], $_POST['idServico'], $_POST['nomeServico'], $_POST['idMedico']);
         echo json_encode($horarios);
     }
 
@@ -109,8 +109,17 @@ class AgendamentosController extends Controller
         $array = array(
             'usuario_dados' => $this->loggedUser,
             'dados_agendamentos' => $dados_agendamentos,
-            'tipo_atendimento' => $data['servico']
+            'tipo_atendimento' => $data['servico'],
+            'situacao' => $data['situacao']
         );
         $this->render('agendamentos', $array);
+    }
+
+    public function cancelarAgendamento()
+    {
+        if ($_POST['idUsuario'] === $this->loggedUser->id_usuario) {
+            $cancelamento = Agendamento::delete()->where('id_agendamento', $_POST['idAgendamento'])->execute();
+            echo 1;
+        }
     }
 }

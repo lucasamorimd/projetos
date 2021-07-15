@@ -114,7 +114,7 @@ class handlerAgendamento
         return $array;
     }
 
-    public static function getHorarios($data, $idUnidade, $idServico, $nome_servico)
+    public static function getHorarios($data, $idUnidade, $idServico, $nome_servico, $idMedico)
     {
         $arrayData = explode('/', $data);
         $ano = $arrayData[2];
@@ -124,7 +124,7 @@ class handlerAgendamento
         $agendamentos = Agendamento::select()
             ->where('tipo_atendimento', $nome_servico)
             ->where('id_unidade', $idUnidade)
-            ->where('id_servico', $idServico)
+            ->where('id_medico', $idMedico)
             ->where('data_atendimento', $data_selecionada->format('Y-m-d'))
             ->execute();
         $hora_indisp = [];

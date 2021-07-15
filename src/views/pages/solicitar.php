@@ -80,7 +80,7 @@ exit;*/ ?>
                                 <li><strong>Médicos disponíveis</strong>:
                                     <div class="form-row">
                                         <div class="col">
-                                            <select class="form-select" name="id_medico" required>
+                                            <select class="form-select" id="id_medico" name="id_medico" required>
                                                 <option value="">Selecione o médico desejado</option>
                                                 <?php foreach ($dados_solicitar_servico['medicos'] as $medico) : ?>
                                                     <option value="<?= $medico['id_medico'] ?>"><?= $medico['nome_medico'] ?></option>
@@ -99,7 +99,12 @@ exit;*/ ?>
                                 <li><strong>Horário Desejado</strong>:
                                     <div class="form-row">
                                         <div class="col">
-                                            <input class="form-control" name="hora_atendimento" value="" id="selectHora" onclick="event.preventDefault();selecionarHora({base:'<?= $base ?>',idUnidade:'<?= $dados_solicitar_servico['unidade']['id_unidade'] ?>', idServico:'<?= $id_servico ?>', nomeServico:'<?= $nome_servico ?>'})" readonly />
+                                            <input class="form-control" name="hora_atendimento" value="" id="selectHora" onclick="event.preventDefault();
+                                            selecionarHora({
+                                                base:'<?= $base ?>',
+                                            idUnidade:'<?= $dados_solicitar_servico['unidade']['id_unidade'] ?>', 
+                                            idServico:'<?= $id_servico ?>', 
+                                            nomeServico:'<?= $nome_servico ?>'})" readonly />
                                         </div>
                                     </div>
 
