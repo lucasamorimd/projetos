@@ -61,9 +61,11 @@ class LoginController extends Controller
             if ($token) {
                 $_SESSION['token'] = $token;
                 $_SESSION['swal'] = "Seja bem-vindo!";
+                $_SESSION['icon'] = 'success';
                 $this->redirect('/');
             } else {
-                $_SESSION['flash'] = "Email, Login ou Senha não conferem";
+                $_SESSION['swal'] = "Email, Login ou Senha não conferem";
+                $_SESSION['icon'] = 'error';
                 $this->redirect('/unsigned');
             }
         } else {

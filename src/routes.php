@@ -35,4 +35,5 @@ $router->post('/agendar-servico', 'AgendamentosController@agendarServico');
 
 //PÁGINAS DE LISTAGEM DE AGENDAMENTOS
 $router->get('/{servico}/{situacao}', 'AgendamentosController@listarServico');
+$router->get('/{servico}/{situacao}/{id}', 'AgendamentosController@detalharServico');
 $router->post('/cancelar-agendamento', 'AgendamentosController@cancelarAgendamento');

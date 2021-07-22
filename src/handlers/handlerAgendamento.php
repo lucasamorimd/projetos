@@ -25,6 +25,7 @@ class handlerAgendamento
         $id_medicos_disp = Medico_servico::select()
             ->where('id_servico', $id['idservico'])
             ->where('nome_servico', $id['nomeservico'])
+            ->where('is_deleted', 0)
             ->get();
 
         //ARRAY VAZIO
@@ -122,7 +123,6 @@ class handlerAgendamento
         $dia = $arrayData[0];
         $data_selecionada = new DateTime(date("Y-m-d", mktime(0, 0, 0, $mes, $dia, $ano)));
         $agendamentos = Agendamento::select()
-            ->where('tipo_atendimento', $nome_servico)
             ->where('id_unidade', $idUnidade)
             ->where('id_medico', $idMedico)
             ->where('data_atendimento', $data_selecionada->format('Y-m-d'))
@@ -157,6 +157,7 @@ class handlerAgendamento
             ->where('id_usuario', $data['id_usuario'])
             ->where('tipo_atendimento', $data['tipo_atendimento'])
             ->where('situacao', $data['situacao'])
+            ->groupBy('id_usuario')
             ->get();
 
         return $data_agendamentos;

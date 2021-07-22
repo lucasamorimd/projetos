@@ -7,6 +7,10 @@ use \src\handlers\handlerLogin;
 use \src\models\Agendamento;
 use \src\handlers\handlerAgendamento;
 use DateTime;
+use src\models\Medico;
+use src\models\Prontuario;
+use src\models\Servico;
+use src\models\Unidade;
 
 class AgendamentosController extends Controller
 {
@@ -34,7 +38,7 @@ class AgendamentosController extends Controller
             ->where('situacao', 'pendente')
             ->one();
         if ($verifica_data === false) {
-            Agendamento::insert(
+            $teste =  Agendamento::insert(
                 [
                     'id_usuario' => $this->loggedUser->id_usuario,
                     'id_unidade' => $params['id_unidade'],
@@ -113,6 +117,30 @@ class AgendamentosController extends Controller
             'situacao' => $data['situacao']
         );
         $this->render('agendamentos', $array);
+    }
+
+    public function detalharServico($id)
+    {
+        $dados_agendamento = Agendamento::select()->where('id_agendamento', $id['id'])->one();
+        if ($this->loggedUser->id_usuario === $dados_agendamento['id_usuario']) {
+
+            $dados_medico = Medico::select()->where('id_medico', $dados_agendamento['id_medico'])->one();
+            $dados_servico = Servico::select()->where('id_servico', $dados_agendamento['id_servico'])->one();
+            $dados_unidade = Unidade::select()->where('id_unidade', $dados_agendamento['id_unidade'])->one();
+            $dados_prontuario = Prontuario::select()->where('id_prontuario', $dados_agendamento['id_prontuario'])->one();
+            $this->render('detalheAgendamento', [
+                'dados_medico' => $dados_medico,
+                'dados_servico' => $dados_servico,
+                'dados_unidade' => $dados_unidade,
+                'dados_agendamento' => $dados_agendamento,
+                'dados_prontuario' => $dados_prontuario,
+                'usuario_dados' => $this->loggedUser
+            ]);
+        } else {
+            $_SESSION['swal'] = "Sem autorização";
+            $_SESSION['type'] = 'warning';
+            $this->redirect('/');
+        }
     }
 
     public function cancelarAgendamento()

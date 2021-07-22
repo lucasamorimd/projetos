@@ -44,14 +44,15 @@
         <script>
             Swal.fire({
                 position: 'top-end',
-                icon: 'success',
+                icon: '<?= $_SESSION['icon'] ?>',
                 title: '<?= $_SESSION['swal'] ?>',
                 showConfirmButton: false,
-                timer: 1500
+                timer: 2500
             })
         </script>
     <?php
         $_SESSION['swal'] = null;
+        $_SESSION['icon'] = null;
     endif; ?>
     <!-- ======= Header ======= -->
     <header id="header" class="fixed-top d-flex align-items-center">

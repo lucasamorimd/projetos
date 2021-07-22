@@ -1,3 +1,7 @@
+<?php /* echo "<pre>";
+print_r($dados_agendamentos);
+die();*/
+?>
 <?php $render('header'); ?>
 <?php if ($_SESSION['swal']) : ?>
     <?php $render('swallnot'); ?>
@@ -41,7 +45,7 @@ endif; ?>
                                     <td><?= $agendamento['nome_atendimento'] ?></td>
                                     <td><?= $agendamento['nome_unidade'] ?></td>
                                     <td><?= $agendamento['telefone_unidade'] ?></td>
-                                    <td><button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modal-<?= $tipo_atendimento . $agendamento['id_agendamento'] ?>"><i class="material-icons">search</i></button></td>
+                                    <td><a class="btn btn-danger btn-sm" href="<?= $base ?>/<?= $tipo_atendimento ?>/<?= $situacao ?>/<?= $agendamento['id_agendamento'] ?>"><i class="material-icons">search</i></button></td>
                                 </tr>
                             <?php endforeach; ?>
 

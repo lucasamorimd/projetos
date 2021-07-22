@@ -8,7 +8,7 @@ exit;*/ ?>
             <ol>
                 <li><a href="<?= $base ?>">Home</a></li>
                 <li><a href="<?= $base ?>/unidades/<?= $nome_servico ?>">Unidades</a></li>
-                <li><a href="<?= $base ?>/unidades/<?= $dados_solicitar_servico['unidade']['id_unidade'] ?>/servicos"><?= ucfirst($nome_servico) ?></a></li>
+                <li><a href="<?= $base ?>/unidades/<?= $dados_solicitar_servico['unidade']['id_unidade'] ?>/<?= $nome_servico ?>"><?= ucfirst($nome_servico) ?></a></li>
                 <li>Agendar</li>
             </ol>
             <h2>Agendar <?= ucfirst($nome_servico) ?> </h2>
