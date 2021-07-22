@@ -20,6 +20,12 @@
                         <th scope="row">Área de atuação</th>
                         <td><?= $modalAgendamento['area_atuacao'] ?></td>
                     </tr>
+                    <?php if ($modalAgendamento['is_deleted'] == 1) : ?>
+                        <tr>
+                            <th scope="row">Médico indisponível</th>
+                            <td>O médico cadastrado não está mais disponível.</td>
+                        </tr>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>
