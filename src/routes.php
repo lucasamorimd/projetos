@@ -33,7 +33,13 @@ $router->post('/gethorarios/servico', 'AgendamentosController@horariosAjax');
 //ACTIONS DE AGENDAR SERVICO
 $router->post('/agendar-servico', 'AgendamentosController@agendarServico');
 
-//PÁGINAS DE LISTAGEM DE AGENDAMENTOS
+
+// ROTA DE CONFIRMAÇÃO DE EMAIL
+
+$router->get('/usuarios/send-confirmation/{id}', 'ConfirmController@sendConfirm');
+$router->get('/usuarios/confirmar/{id}', 'ConfirmController@confirm');
+
+//PÁGINAS DE LISTAGEM DE AGENDAMENTOS ESSAS ROTAS SEMPRE POR ULTIMO
 $router->get('/{servico}/{situacao}', 'AgendamentosController@listarServico');
 $router->get('/{servico}/{situacao}/{id}', 'AgendamentosController@detalharServico');
 $router->post('/cancelar-agendamento', 'AgendamentosController@cancelarAgendamento');

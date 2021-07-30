@@ -29,6 +29,7 @@ class handlerLogin
                 $loggedUser->foto = $data['foto'];
                 $loggedUser->sexo = $data['sexo'];
                 $loggedUser->token = $data['token'];
+                $loggedUser->status = $data['status'];
 
                 return $loggedUser;
             }
