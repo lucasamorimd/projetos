@@ -15,4 +15,6 @@ Sistema projetado para:
 - Registra os médicos de cada unidade.
 - Registra Serviços disponíveis em cada Unidade.
 - Registra os médicos que realizam cada tipo de serviço.
+- Registra resultado com upload de PDF para o Paciente.
+- Envia e-mail de aviso (Em desenvolvimento)
 
