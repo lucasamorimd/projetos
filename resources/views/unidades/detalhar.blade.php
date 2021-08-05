@@ -37,11 +37,19 @@
                                         <tbody>
                                             @foreach($medicos as $medico)
                                             <tr>
-                                                <th scope="row">{{$medico->nome_medico}}</th>
+                                                <th scope="row">
+                                                    <a href="{{route('detalharMedico',$medico->id_medico)}}">
+                                                        {{$medico->nome_medico}}
+                                                    </a>
+                                                </th>
                                                 <td>{{$medico->area_atuacao}}</td>
                                                 <td>{{$medico->crm}}</td>
                                                 @can('admin')
-                                                <td> <a href="{{route('alterarMedico',$medico->id_medico)}}" class="btn btn-primary"><i class="fas fa-user-edit"></i></a></td>
+                                                <td>
+                                                    <a href="{{route('excluirMedicoUnidade',[$medico->id_medico,$unidade->id_unidade])}}" class="btn btn-danger">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                </td>
                                                 @endcan
                                             </tr>
                                             @endforeach
@@ -64,18 +72,26 @@
                                                 <th scope="col">Tipo</th>
                                                 <th scope="col">Preço</th>
                                                 @can('admin')
-                                                <th scope="col">Editar</th>
+                                                <th scope="col">Excluir</th>
                                                 @endcan
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach($servicos as $servico)
                                             <tr>
-                                                <th scope="row">{{$servico->nome_servico}}</th>
+                                                <th scope="row">
+                                                    <a href="{{route('detalharServico',[$servico->id_servico])}}">
+                                                        {{$servico->nome_servico}}
+                                                    </a>
+                                                </th>
                                                 <td>{{$servico->tipo_servico}}</td>
                                                 <td>R$ {{number_format($servico->preco_servico, 2, ',', ' ')}}</td>
                                                 @can('admin')
-                                                <td><a href="{{route('excluirServicoUnidade',[$servico->id_servico,$unidade->id_unidade])}}" class="btn btn-danger"><i class="fas fa-trash"></i></a></td>
+                                                <td>
+                                                    <a href="{{route('excluirServicoUnidade',[$servico->id_servico,$unidade->id_unidade])}}" class="btn btn-danger">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                </td>
                                                 @endcan
                                             </tr>
                                             @endforeach

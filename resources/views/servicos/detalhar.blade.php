@@ -32,7 +32,7 @@
                             </tr>
                             <tr>
                                 <th scope="row">Tempo de Duração </th>
-                                <td>{{$servico->tempo_estimado}} horas</td>
+                                <td>{{$servico->tempo_estimado}}</td>
                             </tr>
                             <tr>
                                 <th class="align-middle" scope="row">Descrição:</th>

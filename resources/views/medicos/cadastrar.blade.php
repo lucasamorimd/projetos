@@ -27,9 +27,9 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="crm" class="col-sm-2 col-form-label">CRM</label>
+                        <label for="crm" class="col-sm-2 col-form-label">CR</label>
                         <div class="col-sm-10">
-                            <input name="crm" id="crm" type="text" class="form-control " placeholder="Informe a CRM do novo Médico">
+                            <input name="crm" id="crm" type="text" class="form-control " placeholder="Informe a CR do novo Médico">
                             @error('crm')
                             <div class="alert alert-danger">
                                 {{$message}}

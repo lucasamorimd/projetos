@@ -52,7 +52,7 @@
                     <div class="form-group row">
                         <label for="tempo_estimado" class="col-sm-2 col-form-label">Tempo de duração</label>
                         <div class="col-sm-10">
-                            <input name="tempo_estimado" id="tempo_estimado" type="number" class="form-control " value="{{$servico->tempo_estimado}}">
+                            <input name="tempo_estimado" id="tempo_estimado" type="text" class="form-control " value="{{$servico->tempo_estimado}}">
 
                             @error('tempo_estimado')
                             <div class="alert alert-danger">

@@ -28,7 +28,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="crm" class="col-sm-2 col-form-label">CRM</label>
+                        <label for="crm" class="col-sm-2 col-form-label">CR</label>
                         <div class="col-sm-10">
                             <input name="crm" id="crm" type="text" class="form-control " value="{{$medico->crm}}">
                             @error('crm')

@@ -17,4 +17,10 @@ class Unidade extends Model
         'telefone_unidade',
         'cnpj_unidade'
     ];
+    protected $primaryKey = 'id_unidade';
+    protected $table = 'unidades';
+    public function funcionario()
+    {
+        return $this->hasMany(Funcionario::class, 'id_unidade', 'id_unidade');
+    }
 }

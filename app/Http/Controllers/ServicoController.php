@@ -8,9 +8,8 @@ use App\Models\Medico;
 use App\Models\Medico_servico;
 use App\Models\Servico;
 use App\Models\Unidade;
-use App\Models\Unidade_medico;
 use App\Models\Unidade_servico;
-use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
@@ -135,7 +134,7 @@ class ServicoController extends Controller
         $id_unidades = Unidade_servico::where('id_servico', $id)->select('id_unidade')->get();
 
         //ID DOS MÉDICOS QUE ATENDEM ESSE SERVIÇO
-        $id_medicos = Medico_servico::where('id_servico', $id)->select('id_medico')->get();
+        $id_medicos = Medico_servico::where('id_servico', $id)->where('is_deleted', 0)->select('id_medico')->get();
 
         //DADOS DAS UNIDADES QUE TEM O SERVIÇO
         $dados_servico_unidades = Unidade::whereIn('id_unidade', $id_unidades)->get();
@@ -143,12 +142,13 @@ class ServicoController extends Controller
         //DADOS DOS MÉDICOS QUE ATENDEM ESSE SERVIÇO NAS UNIDADES
         $dados_servico_medicos = Medico::whereIn('id_medico', $id_medicos)
             ->whereIn('id_unidade', $id_unidades)
+            ->where('is_deleted', 0)
             ->get();
         //DADOS GERAIS DAS UNIDADES CADASTRADAS NO SISTEMA
         $dados_gerais_unidades = Unidade::all();
 
         //DADOS GERAIS DOS MÉDICOS CADASTRADOS NO SISTEMA
-        $dados_gerais_medicos = Medico::all();
+        $dados_gerais_medicos = Medico::where('is_deleted', 0)->get();
 
 
         //COLLECTIONS PARA COMPARAR AS UNIDADES QUE TEM O SERVIÇO E QUE NÃO TEM
@@ -193,8 +193,7 @@ class ServicoController extends Controller
 
         if ($update_servico === 1) {
             Unidade_servico::where('id_servico', $request->id_servico)->delete();
-            Medico_servico::where('id_servico', $request->id_servico)->delete();
-            $msg = "Houve algum erro!";
+            Medico_servico::where('id_servico', $request->id_servico)->where('is_deleted', 0)->delete();
             if ($request->unidades) {
                 foreach ($request->unidades as $unidade) {
                     Unidade_servico::create([
@@ -207,7 +206,7 @@ class ServicoController extends Controller
             if ($request->medicos) {
                 foreach ($request->medicos as $medico) {
                     $id_medico_unidade = Medico::where('id_medico', $medico)->select('id_unidade')->first();
-                    if (in_array($id_medico_unidade->id_unidade, $request->unidades)) {
+                    if ($request->unidades && in_array($id_medico_unidade->id_unidade, $request->unidades)) {
                         Medico_servico::create([
                             'id_medico' => $medico,
                             'id_servico' => $request->id_servico,

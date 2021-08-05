@@ -26,7 +26,7 @@ class ServicoStoreRequest extends FormRequest
         return [
             'nome' => ['required', 'string', 'max:100'],
             'tipo_servico' => ['required', 'string', 'min:6'],
-            'tempo_estimado' => ['required', 'int'],
+            'tempo_estimado' => ['required'],
             'preco' => ['required', 'numeric'],
             'descricao' => ['required']
         ];

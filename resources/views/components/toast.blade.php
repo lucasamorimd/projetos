@@ -10,10 +10,8 @@
         position: 'topLeft'
     })*/
     Swal.fire({
-        position: 'top-end',
         type: '{{session("aviso")["bg_notificacao"]}}',
         title: '{{session("aviso")["msg"]}}',
-        showConfirmButton: false,
-        timer: 1500
+        showConfirmButton: true
     })
 </script>

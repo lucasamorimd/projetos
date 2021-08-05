@@ -85,58 +85,6 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label for="servico" class="col-sm-1 col-form-label">Serviços</label>
-                        <div class="col-sm-4">
-                            @foreach($unidade_servicos as $servico)
-                            <div class="custom-control custom-checkbox">
-                                <input name="servicos[]" class="custom-control-input" type="checkbox" value="{{$servico->id_servico}}" id="servicoCheck{{$servico->id_servico}}" checked>
-                                <label class="custom-control-label" for="servicoCheck{{$servico->id_servico}}">
-                                    {{$servico->nome_servico}} ({{ucfirst($servico->tipo_servico)}})
-                                </label>
-                            </div>
-                            @endforeach
-                            @foreach($servicos as $servico)
-                            <div class="custom-control custom-checkbox">
-                                <input name="servicos[]" class="custom-control-input" type="checkbox" value="{{$servico->id_servico}}" id="servicoCheck{{$servico->id_servico}}">
-                                <label class="custom-control-label" for="servicoCheck{{$servico->id_servico}}">
-                                    {{$servico->nome_servico}} ({{ucfirst($servico->tipo_servico)}})
-                                </label>
-                            </div>
-                            @endforeach
-                            @error('servicos[]')
-                            <div class="alert alert-danger">
-                                {{$message}}
-                            </div>
-                            @enderror
-
-                        </div>
-                        <label for="servico" class="col-sm-1 col-form-label">Médicos</label>
-                        <div class="col-sm-4">
-                            @foreach($medicos as $medico)
-                            <div class="custom-control custom-checkbox">
-                                <input name="medicos[]" class="custom-control-input" type="checkbox" value="{{$medico->id_medico}}" id="medicoCheck{{$medico->id_medico}}" checked>
-                                <label class="custom-control-label" for="medicoCheck{{$medico->id_medico}}">
-                                    {{$medico->nome_medico}} ({{$medico->area_atuacao}})
-                                </label>
-                            </div>
-                            @endforeach
-                            @foreach($unidade_medicos as $medico)
-                            <div class="custom-control custom-checkbox">
-                                <input name="medicos[]" class="custom-control-input" type="checkbox" value="{{$medico->id_medico}}" id="medicoCheck{{$medico->id_medico}}">
-                                <label class="custom-control-label" for="medicoCheck{{$medico->id_medico}}">
-                                    {{$medico->nome_medico}} ({{$medico->area_atuacao}})
-                                </label>
-                            </div>
-                            @endforeach
-                            @error('medicos[]')
-                            <div class="alert alert-danger">
-                                {{$message}}
-                            </div>
-                            @enderror
-
-                        </div>
-                    </div>
                     <input type="hidden" name="id_unidade" value="{{$unidade->id_unidade}}">
                 </form>
             </div>

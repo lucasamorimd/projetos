@@ -25,6 +25,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+Route::get('/home', function () {
+    return redirect()->route('home');
+});
+
 //AUTH
 /**
  * @return Rotas_de_Login
@@ -46,6 +50,7 @@ Route::prefix('unidades')->group(function () {
     Route::post('/salvar-alteracao-unidade', [UnidadeController::class, 'update'])->name('salvarAlteracaoUnidade');
     Route::get('/excluir-unidade/{id}', [UnidadeController::class, 'destroy'])->name('excluirUnidade');
     Route::get('/excluir-servico-unidade/{idServico}/{idUnidade}', [UnidadeController::class, 'destroyServicoUnidade'])->name('excluirServicoUnidade');
+    Route::get('/excluir-medico-unidade/{idMedico}/{idUnidade}', [UnidadeController::class, 'destroyMedicoUnidade'])->name('excluirMedicoUnidade');
 });
 
 //MEDICOS

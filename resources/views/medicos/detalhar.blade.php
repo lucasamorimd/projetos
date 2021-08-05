@@ -21,7 +21,7 @@
                                 <td>{{$medico->nome_medico}}</td>
                             </tr>
                             <tr>
-                                <th scope="row">CRM: </th>
+                                <th scope="row">CR: </th>
                                 <td>{{$medico->crm}}</td>
                             </tr>
                             <tr>

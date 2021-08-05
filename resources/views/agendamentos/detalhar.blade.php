@@ -50,7 +50,7 @@
                             </tr>
                             <tr>
                                 <th scope="row">Horário do atendimento: </th>
-                                <td>{{date('h:i',strtotime($agendamento->hora_atendimento))}} horas</td>
+                                <td>{{date('H:i',strtotime($agendamento->hora_atendimento))}} horas</td>
                             </tr>
                             <tr>
                                 <th scope="row">Dados do Médico </th>

@@ -18,13 +18,11 @@
             contentType: false,
             success: function(resultado) {
                 Swal.fire({
-                    position: 'top-end',
                     type: resultado.bg_notificacao,
                     title: resultado.titulo_notificacao,
                     text: resultado.msg,
                     footer: resultado.subtitulo_notificacao,
-                    showConfirmButton: false,
-                    timer: 2500
+                    showConfirmButton: true
                 }).then((result) => {
                     window.location.href = resultado.route
                 })

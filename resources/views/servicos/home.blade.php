@@ -11,7 +11,10 @@
             @foreach($servicos as $servico)
             <div class="col-md-3">
                 <div class="info-box">
-                    <span class="info-box-icon bg-info"><i class="fas fa-stethoscope"></i></span>
+                    @if($servico->tipo_servico == 'exames')<span class="info-box-icon bg-success"><i class="fas fa-stethoscope"></i></span>
+                    @elseif($servico->tipo_servico == 'consultas')<span class="info-box-icon bg-info"><i class="fas fa-stethoscope"></i></span>
+                    @elseif($servico->tipo_servico == 'procedimentos')<span class="info-box-icon bg-warning"><i class="fas fa-stethoscope"></i></span>
+                    @endif
                     <div class="info-box-content">
                         <span class="info-box-text"><a href="{{route('detalharServico', $servico->id_servico)}}">{{$servico->nome_servico}}</a></span>
                         <span class="info-box-number">{{$servico->tipo_servico}}</span>

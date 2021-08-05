@@ -11,9 +11,8 @@ use App\Models\Unidade_medico;
 use App\Models\Unidade_servico;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Route;
+
 
 class MedicoController extends Controller
 {
@@ -29,9 +28,9 @@ class MedicoController extends Controller
     public function index()
     {
         if (Auth::user()->tipo_perfil === 'administrador') {
-            $dados_medicos = Medico::all();
+            $dados_medicos = Medico::where('is_deleted', 0)->get();
         } else {
-            $dados_medicos = Medico::where('id_unidade', Auth::user()->id_unidade)->get();
+            $dados_medicos = Medico::where('id_unidade', Auth::user()->id_unidade)->where('is_deleted', 0)->get();
         }
         return view('medicos.home', ['medicos' => $dados_medicos]);
     }
@@ -126,7 +125,7 @@ class MedicoController extends Controller
     ) {
 
 
-        $dados_medico = $medico->where('id_medico', $id)->first();
+        $dados_medico = $medico->where('id_medico', $id)->where('is_deleted', 0)->first();
 
         $dados_unidade = $unidade->where('id_unidade', $dados_medico->id_unidade)->first();
 
@@ -208,6 +207,7 @@ class MedicoController extends Controller
                 'crm' => $request->crm,
                 'area_atuacao' => $request->area_atuacao
             ]);
+
         Medico_servico::where('id_medico', $request->id_medico)->delete();
 
         if ($request->servicos) {
@@ -246,15 +246,17 @@ class MedicoController extends Controller
             return redirect()->route('home')->with('aviso', ['msg' => 'Não autorizado']);
         }
 
-        $deletar_medico = $medico->where('id_medico', $id)->delete();
+        $deletar_medico = $medico->where('id_medico', $id)->update(['is_deleted' => 1]);
+        Unidade_medico::where('id_medico', $id)->update(['is_deleted' => 1]);
+        Medico_servico::where('id_medico', $id)->update(['is_deleted' => 1]);
         if ($deletar_medico === 1) {
             $msg = "Médico excluído com sucesso";
-            $bg_notificacao = 'bg-primary';
+            $bg_notificacao = 'success';
         } else {
             $msg = "Erro ao excluír, tente novamente";
-            $bg_notificacao = 'bg-danger';
+            $bg_notificacao = 'error';
         }
-        $notify_title = 'Cadastro';
+        $notify_title = 'Deletar';
         $notify_subtitle = 'Médico';
 
         return redirect()->route('medicos')->with('aviso', [

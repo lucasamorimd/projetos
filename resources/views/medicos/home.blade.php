@@ -14,7 +14,7 @@
                     <span class="info-box-icon bg-info"><i class="fas fa-user-md"></i></span>
                     <div class="info-box-content">
                         <span class="info-box-text"><a href="{{route('detalharMedico',$medico->id_medico)}}">{{$medico->nome_medico}}</a></span>
-                        <span class="info-box-number">CRM: {{$medico->crm}}</span>
+                        <span class="info-box-number">CR: {{$medico->crm}}</span>
                     </div>
                 </div>
             </div>

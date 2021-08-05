@@ -7,7 +7,6 @@ use App\Models\Medico;
 use App\Models\Medico_servico;
 use App\Models\Servico;
 use App\Models\Unidade;
-use App\Models\Unidade_medico;
 use App\Models\Unidade_servico;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -107,7 +106,7 @@ class UnidadeController extends Controller
         $dados_unidade = $unidade->where('id_unidade', $id)->first();
         $id_servicos = $id_servicos->where('id_unidade', $id)->select('id_servico')->get();
         $dados_servicos = $servicos->whereIn('id_servico', $id_servicos)->get();
-        $dados_medicos = $medico->where('id_unidade', $id)->get();
+        $dados_medicos = $medico->where('id_unidade', $id)->where('is_deleted', 0)->get();
 
         return view(
             'unidades.detalhar',
@@ -127,41 +126,17 @@ class UnidadeController extends Controller
      */
     public function edit(
         Unidade $unidade,
-        Unidade_medico $unidade_medico,
-        Unidade_servico $unidade_servico,
-        Servico $servico,
-        Medico $medico,
         $id
     ) {
         if (!Gate::allows('admin')) {
             return redirect()->route('home')->with('aviso', ['msg' => 'Não autorizado!']);
         }
         $dados_unidade = $unidade->where('id_unidade', $id)->first();
-        $id_medicos = $unidade_medico->where('id_unidade', $id)->select('id_medico')->get();
-        $id_servicos = $unidade_servico->where('id_unidade', $id)->select('id_servico')->get();
-
-        $dados_servicos = $servico->whereIn('id_servico', $id_servicos)->get();
-        $dados_medicos = $medico->whereIn('id_medico', $id_medicos)->get();
-
-        $dados_gerais_servicos = $servico->all();
-        $dados_gerais_medicos = $medico->all();
-
-        $collection_unidade_servicos = collect($dados_servicos);
-        $collection_servicos = collect($dados_gerais_servicos);
-
-        $servicos_disponiveis = $collection_servicos->diff($collection_unidade_servicos);
-
-        $collection_unidade_medicos = collect($dados_medicos);
-        $collection_medicos = collect($dados_gerais_medicos);
-
-        $medicos_disponiveis = $collection_medicos->diff($collection_unidade_medicos);
 
         return view('unidades.alterar', [
-            'servicos' => $servicos_disponiveis,
-            'medicos' => $dados_medicos,
-            'unidade' => $dados_unidade,
-            'unidade_medicos' => $medicos_disponiveis,
-            'unidade_servicos' => $dados_servicos
+
+            'unidade' => $dados_unidade
+
         ]);
     }
 
@@ -189,36 +164,11 @@ class UnidadeController extends Controller
         );
 
         if ($alterar_unidade === 1) {
-            Unidade_servico::where('id_unidade', $request->id_unidade)->delete();
-            Unidade_medico::where('id_unidade', $request->id_unidade)->delete();
-
-            if ($request->servicos) {
-                foreach ($request->servicos as $servico) {
-                    $nome_servico = Servico::where('id_servico', $servico)->select('tipo_servico')->first();
-                    Unidade_servico::create([
-                        'id_unidade' => $request->id_unidade,
-                        'id_servico' => $servico,
-                        'nome_servico' => $nome_servico->tipo_servico
-                    ]);
-                }
-            }
-            if ($request->medicos) {
-                foreach ($request->medicos as $medico) {
-                    Medico_servico::where('id_medico', $medico)->delete();
-                    Unidade_medico::create([
-                        'id_unidade' => $request->id_unidade,
-                        'id_medico' => $medico
-                    ]);
-                    Medico::where('id_medico', $medico)->update([
-                        'id_unidade' => $request->id_unidade
-                    ]);
-                }
-            }
+            $bg_notificacao = 'success';
+            $msg = 'Unidade alterada';
+            $notify_title = 'Alteração';
+            $notify_subtitle = 'Unidade';
         }
-        $bg_notificacao = 'success';
-        $msg = 'Unidade alterada';
-        $notify_title = 'Alteração';
-        $notify_subtitle = 'Unidade';
 
         return  [
             'msg' => $msg,

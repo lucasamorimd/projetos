@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 @section('title', 'Home')
 @section('content_header')
-<h1> Painel de Controle</h1><a href="#" onclick="toastar()" class="btn btn-primary">teste</a>
+<h1> Painel de Controle</h1>
 @endsection
 @section('content')
 <div class="row">
@@ -160,17 +160,4 @@
         </div>
     </div>
 </div>
-@endsection
-@section('js')
-<script>
-    function toastar() {
-        Swal.fire({
-            position: 'top-end',
-            type: 'success',
-            title: 'Your work has been saved',
-            showConfirmButton: false,
-            timer: 1500
-        })
-    }
-</script>
 @endsection
