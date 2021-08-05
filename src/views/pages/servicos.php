@@ -34,7 +34,7 @@ die();*/
                             <div class="entry-meta">
                                 <ul>
                                     <li class="d-flex align-items-center"><i class="bi bi-coin"></i> <a href="#">R$<?= $servico['preco_servico'] ?></a></li>
-                                    <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="#"><?= $servico['tempo_estimado'] ?> horas de duração</time></a></li>
+                                    <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="#"><?= $servico['tempo_estimado'] ?> de duração</time></a></li>
                                 </ul>
                             </div>
 
