@@ -68,7 +68,6 @@ class AgendamentosController extends Controller
 
         $dados_solicitar_servico = handlerAgendamento::getDadosSolicitarServico($id);
 
-
         $datas = "'" . implode("','", $dados_solicitar_servico['datas_disponiveis']) . "'";
 
         $array = [

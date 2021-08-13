@@ -8,6 +8,7 @@ use \src\models\Medico_servico;
 use \src\models\Unidade_servico;
 use \src\models\Medico;
 use \src\models\Agendamento;
+use \src\models\Galeria;
 use DateTime;
 use DatePeriod;
 use DateInterval;
@@ -17,11 +18,10 @@ class handlerServico
     public static function getUnidadeServicos($id)
     {
         $Unidade_servicos = Unidade_servico::select('id_servico')
-        ->where('id_unidade', $id['id'])
-        ->where('nome_servico', $id['servico'])
-        ->get();
+            ->where('id_unidade', $id['id'])
+            ->where('nome_servico', $id['servico'])
+            ->get();
         if (count($Unidade_servicos)) {
-
             foreach ($Unidade_servicos as $exms) {
                 $servicos_id[] = $exms['id_servico'];
             }

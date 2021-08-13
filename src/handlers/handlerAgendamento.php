@@ -10,6 +10,7 @@ use \src\models\Agendamento;
 use DateTime;
 use DatePeriod;
 use DateInterval;
+use src\models\Galeria;
 
 class handlerAgendamento
 {
@@ -19,7 +20,7 @@ class handlerAgendamento
 
         //SELECIONA NO BANCO O SERVICO QUE VAI SER SOLICITADO
         $servico = Servico::select()->where('id_servico', $id['idservico'])->one();
-
+        $fotos = Galeria::select()->where('id_servico', $id['idservico'])->get();
 
         //SELECIONA NO BANCO OS MÉDICOS QUE FAZEM ESSE EXAME
         $id_medicos_disp = Medico_servico::select()
@@ -109,7 +110,8 @@ class handlerAgendamento
             'servico' => $servico,
             'medicos' => $dados_medico,
             'unidade' => $unidade,
-            'datas_disponiveis' => $datas_validas
+            'datas_disponiveis' => $datas_validas,
+            'fotos_slideshow' => $fotos
         );
 
         return $array;

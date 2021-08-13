@@ -23,19 +23,11 @@ exit;*/ ?>
                 <div class="col-lg-8">
                     <div class="portfolio-details-slider swiper-container">
                         <div class="swiper-wrapper align-items-center">
-
-                            <div class="swiper-slide">
-                                <img src="<?= $base ?>/assets/img/portfolio/portfolio-details-1.jpg" alt="">
-                            </div>
-
-                            <div class="swiper-slide">
-                                <img src="<?= $base ?>/assets/img/portfolio/portfolio-details-2.jpg" alt="">
-                            </div>
-
-                            <div class="swiper-slide">
-                                <img src="<?= $base ?>/assets/img/portfolio/portfolio-details-3.jpg" alt="">
-                            </div>
-
+                            <?php foreach ($dados_solicitar_servico['fotos_slideshow'] as $foto) : ?>
+                                <div class="swiper-slide">
+                                    <img src="http://localhost:8000/servicos/imagens/<?= $nome_servico ?>/<?= $dados_solicitar_servico['servico']['nome_servico'] ?>/<?= $foto['nome_foto'] ?>" alt="">
+                                </div>
+                            <?php endforeach; ?>
                         </div>
                         <div class="swiper-pagination"></div>
                     </div>
