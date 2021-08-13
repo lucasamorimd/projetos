@@ -71,13 +71,18 @@ class MedicoController extends Controller
         if (!Gate::allows('admin')) {
             return redirect()->route('home')->with('aviso', ['msg' => 'Não autorizado']);
         }
+
+        //  dd($request->foto_medico->extension());
+
         $novo_medico = Medico::create([
             'id_unidade' => $request->unidade,
             'crm' => $request->crm,
             'nome_medico' => $request->nome,
-            'area_atuacao' => $request->area_atuacao
+            'area_atuacao' => $request->area_atuacao,
         ]);
-
+        $hash_foto = md5($novo_medico->id . '_' . $request->crm);
+        $nome_arquivo = $hash_foto . '.' . $request->foto_medico->extension();
+        Medico::where('id_medico', $novo_medico->id)->update(['foto_medico' => $nome_arquivo]);
         if ($request->servicos) {
             foreach ($request->servicos as $servico) {
                 $nome_servico = Servico::where('id_servico', $servico)->select('tipo_servico')->first();
@@ -94,7 +99,7 @@ class MedicoController extends Controller
             'id_unidade' => $request->unidade,
             'id_medico' => $novo_medico->id
         ]);
-
+        $request->foto_medico->storeAs('public/medicos/' . $hash_foto, $nome_arquivo);
 
         $bg_notificacao = 'success';
         $msg = 'Médico cadastrado';
@@ -109,7 +114,12 @@ class MedicoController extends Controller
             'route' => $route
         ];
     }
+    private function salvarFoto($id_medico, $nome_foto)
+    {
 
+
+        return true;
+    }
     /**
      * Display the specified resource.
      *

@@ -9,6 +9,7 @@ use App\Models\Medico_servico;
 use App\Models\Servico;
 use App\Models\Unidade;
 use App\Models\Unidade_servico;
+use App\Models\Galeria;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -69,7 +70,21 @@ class ServicoController extends Controller
             'tempo_estimado' => $request->tempo_estimado,
             'preco_servico' => $request->preco,
             'descricao_servico' => $request->descricao,
+            'foto_principal' => 'teste'
         ]);
+        foreach ($request->fotos_servico as $foto) {
+            $nome_arquivo = md5($novo_servico->id . '_' . date('H:i:s') . rand(0, 999)) . '.' . $foto->extension();
+            Galeria::create(
+                [
+                    'id_servico' => $novo_servico->id,
+                    'nome_foto' => $nome_arquivo
+                ]
+            );
+            $foto->storeAs('public/servicos/' . strtolower($request->tipo_servico) . '/' . $request->nome, $nome_arquivo);
+        }
+        $nome_foto = md5(date('H:i:s') . rand(1, 99) . 'principal') . '.' . $request->foto_principal->extension();
+        $request->foto_principal->storeAs('public/servicos/' . strtolower($request->tipo_servico) . '/' . $request->nome, $nome_foto);
+        Servico::where('id_servico', $novo_servico->id)->update(['foto_principal' => $nome_foto]);
         if ($request->unidades) {
             foreach ($request->unidades as $unidades) {
                 Unidade_servico::create([

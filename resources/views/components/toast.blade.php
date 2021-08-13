@@ -10,7 +10,7 @@
         position: 'topLeft'
     })*/
     Swal.fire({
-        type: '{{session("aviso")["bg_notificacao"]}}',
+        icon: '{{session("aviso")["bg_notificacao"]}}',
         title: '{{session("aviso")["msg"]}}',
         showConfirmButton: true
     })

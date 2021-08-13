@@ -3,7 +3,23 @@
 
         var form = new FormData($('#cadastrar')[0])
         var action = document.getElementById('cadastrar').action
-
+        $(document).on({
+            ajaxStart: function() {
+                let timerInterval
+                Swal.fire({
+                    title: 'Carregando informações',
+                    html: 'Por favor, aguarde!',
+                    timer: false,
+                    timerProgressBar: true,
+                    didOpen: () => {
+                        Swal.showLoading()
+                    },
+                    willClose: () => {
+                        clearInterval(timerInterval)
+                    }
+                })
+            }
+        });
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
@@ -18,7 +34,7 @@
             contentType: false,
             success: function(resultado) {
                 Swal.fire({
-                    type: resultado.bg_notificacao,
+                    icon: resultado.bg_notificacao,
                     title: resultado.titulo_notificacao,
                     text: resultado.msg,
                     footer: resultado.subtitulo_notificacao,

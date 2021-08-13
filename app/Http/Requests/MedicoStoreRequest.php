@@ -27,7 +27,8 @@ class MedicoStoreRequest extends FormRequest
             'nome' => ['required', 'string', 'min:5'],
             'crm' => ['required'],
             'area_atuacao' => ['required'],
-            'unidade' => ['required']
+            'unidade' => ['required'],
+            'foto_medico' => ['required', 'image']
         ];
     }
 
@@ -37,7 +38,9 @@ class MedicoStoreRequest extends FormRequest
             'nome.required' => 'Informe o nome do médico',
             'crm.required' => 'Informe a crendencial do méido',
             'area_atuacao.required' => 'Qual a área de formação do médico?',
-            'unidade.required' => 'Selecione uma unidade onde o médico atuará'
+            'unidade.required' => 'Selecione uma unidade onde o médico atuará',
+            'foto_medico.required' => 'Insira uma foto',
+            'foto_medico.image' => 'Arquivo inserido não é imagem'
         ];
     }
 }

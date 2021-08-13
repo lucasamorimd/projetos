@@ -22,7 +22,7 @@
         }).done(function(response) {
 
             Swal.fire({
-                type: response.bg_notificacao,
+                icon: response.bg_notificacao,
                 title: response.titulo_notificacao,
                 text: response.msg,
                 footer: response.subtitulo_notificacao,

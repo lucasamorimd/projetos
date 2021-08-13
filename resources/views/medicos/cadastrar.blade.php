@@ -13,7 +13,7 @@
         @include('components.validation')
         <div class="row  justify-content-center">
             <div class="col">
-                <form id="cadastrar" action="{{route('salvarMedico')}}" method="POST">
+                <form enctype="multipart/form-data" id="cadastrar" action="{{route('salvarMedico')}}" method="POST">
                     @csrf
                     <div class="form-group row">
                         <label for="nome" class="col-sm-2 col-form-label">Nome</label>
@@ -43,6 +43,21 @@
                             <input name="area_atuacao" id="area_atuacao" type="text" class="form-control " placeholder="Em quê o novo médico é especializado?">
 
                             @error('area_atuacao')
+                            <div class="alert alert-danger">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="customFile" class="col-sm-2 col-form-label">Foto</label>
+                        <div class="col-sm-10">
+                            <div class="custom-file">
+                                <input name="foto_medico" type="file" class="custom-file-input" id="customFile">
+                                <label class="custom-file-label" for="customFile">Selecionar Foto (apenas jpg ou png)</label>
+                            </div>
+
+                            @error('foto_medico')
                             <div class="alert alert-danger">
                                 {{$message}}
                             </div>
@@ -97,7 +112,7 @@
         });
         $.ajax({
             type: "post",
-            url: 'servicos-ajax/',
+            url: "{{route('servicosAjax')}}",
             data: {
                 id: unidade.value
             },

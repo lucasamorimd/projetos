@@ -9,6 +9,7 @@ use App\Http\Controllers\ProntuarioController;
 use App\Http\Controllers\ServicoController;
 use App\Http\Controllers\UnidadeController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\ImagensController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -66,6 +67,7 @@ Route::prefix('medicos')->group(function () {
     Route::get('/alterar-medico/{id}', [MedicoController::class, 'edit'])->name('alterarMedico');
     Route::post('/servicos-ajax', [MedicoController::class, 'servicosAjax'])->name('servicosAjax');
     Route::get('/excluir-medico/{id}', [MedicoController::class, 'destroy'])->name('excluirMedico');
+    Route::get('/imagens/{nome_pasta}/{nome_arquivo}', [ImagensController::class, 'imagemMedico'])->name('fotoMedico');
 });
 
 //SERVIÇOS
@@ -79,6 +81,7 @@ Route::prefix('servicos')->group(function () {
     Route::get('/alterar-servico/{id}', [ServicoController::class, 'edit'])->name('alterarServico');
     Route::post('/salvar-alteracao-servico', [ServicoController::class, 'update'])->name('salvarAlteracaoServico');
     Route::post('/salvar-servico', [ServicoController::class, 'store'])->name('salvarServico');
+    Route::get('/imagens/{nome_pasta_tipo}/{nome_pasta_servico}/{nome_arquivo}', [ImagensController::class, 'imagensServico'])->name('fotosServico');
 });
 
 //AGENDAMENTOS
