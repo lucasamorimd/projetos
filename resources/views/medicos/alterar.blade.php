@@ -71,7 +71,7 @@
                             <div class="custom-control custom-checkbox">
                                 <input name="servicos[]" class="custom-control-input" type="checkbox" value="{{$servico_med->id_servico}}" id="defaultCheck{{$servico_med->id_servico}}" checked>
                                 <label class="custom-control-label" for="defaultCheck{{$servico_med->id_servico}}">
-                                    {{$servico_med->nome_servico}}
+                                    {{$servico_med->nome_servico}} ({{$servico_med->tipo_servico}})
                                 </label>
                             </div>
                             @endforeach
@@ -79,7 +79,7 @@
                             <div class="custom-control custom-checkbox">
                                 <input name="servicos[]" class="custom-control-input" type="checkbox" value="{{$servico->id_servico}}" id="defaultCheck{{$servico->id_servico}}">
                                 <label class="custom-control-label" for="defaultCheck{{$servico->id_servico}}">
-                                    {{$servico->nome_servico}}
+                                    {{$servico->nome_servico}} ({{$servico->tipo_servico}})
                                 </label>
                             </div>
                             @endforeach
