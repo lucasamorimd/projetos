@@ -116,3 +116,13 @@ async function swalHorario(data) {
         button.value = data.horarios[hora]
     }
 }
+function submitar() {
+    let horario = document.getElementById('selectHora').value;
+    let medico = document.getElementById('id_medico').value;
+    let data = document.getElementById('selectData').value;
+    if (horario && medico && data) {
+        document.getElementById('formSolicitarExame').submit()
+    } else {
+        Swal.fire('Escolha um médico, data e horário para prosseguir!')
+    }
+}

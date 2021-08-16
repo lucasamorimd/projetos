@@ -107,7 +107,7 @@ exit;*/ ?>
                                     <input type="hidden" name="tipo_atendimento" value="<?= $nome_servico ?>" />
                                 </li>
                                 <li>
-                                    <button type="submit" class="btn btn-outline-danger">Finalizar</a>
+                                <button onclick="event.preventDefault(); submitar()" type="submit" class="btn btn-outline-danger">Finalizar</button>
                                 </li>
                             </ul>
                         </form>

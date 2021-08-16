@@ -31,12 +31,15 @@ class AgendamentosController extends Controller
         $mes = $arrayData[1];
         $dia = $arrayData[0];
         $data_selecionada = new DateTime(date("Y-m-d", mktime(0, 0, 0, $mes, $dia, $ano)));
+
         $verifica_data = Agendamento::select('id_agendamento')
             ->where('tipo_atendimento', $params['tipo_atendimento'])
             ->where('data_atendimento', $data_selecionada->format('Y-m-d'))
             ->where('hora_atendimento', $params['hora_atendimento'])
+            ->where('id_medico', $params['id_medico'])
             ->where('situacao', 'pendente')
             ->one();
+
         if ($verifica_data === false) {
             $teste =  Agendamento::insert(
                 [
@@ -61,7 +64,7 @@ class AgendamentosController extends Controller
         }
         $_SESSION['type'] = 'error';
         $_SESSION['swal'] = "Houve algum erro no agendamento!";
-        $this->redirect('/unidades/' . $params['id_unidade'] . '/exames/' . $params['id_servico'] . '/agendar');
+        $this->redirect('/');
     }
     public function solicitar($id)
     {

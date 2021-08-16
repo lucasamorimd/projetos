@@ -159,7 +159,6 @@ class handlerAgendamento
             ->where('id_usuario', $data['id_usuario'])
             ->where('tipo_atendimento', $data['tipo_atendimento'])
             ->where('situacao', $data['situacao'])
-            ->groupBy('id_usuario')
             ->get();
 
         return $data_agendamentos;
