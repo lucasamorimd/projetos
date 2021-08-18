@@ -3,54 +3,33 @@
 namespace src\controllers;
 
 use \core\Controller;
-use \src\models\Medico;
-use \src\models\Servico;
 
 use \src\handlers\handlerLogin;
 
 class HomeController extends Controller
 {
 
+    //Atributo que recebe os dados do usuário logado
     private $loggedUser;
+
+    //Método esecutado antes de qualquer outro método dessa clase ser executada
     public function __construct()
     {
+        // Fas a requisição dos dados do usuário loggado
         $this->loggedUser = handlerLogin::checkLogin();
+        // Caso não haja nenhum usuário logado
         if ($this->loggedUser === false) {
+            //Redireciona para a página inicial de usuário não logado
             $this->redirect('/unsigned');
         }
     }
+
+    //Parâmetro que renderiza a página inicial de usuário loggado
     public function index()
     {
-        $lista_medicos = Medico::select()->execute();
-        $lista_servicos = Servico::select()->execute();
-        $lista_exames = [];
-        $lista_consultas = [];
-        $lista_procedimentos = [];
-        foreach ($lista_servicos as $servico) {
-            switch ($servico['tipo_servico']) {
-                case 'exames':
-                    $lista_exames[] = $servico;
-                    break;
-                case 'consultas':
-                    $lista_consultas[] = $servico;
-                    break;
-                case 'procedimentos':
-                    $lista_procedimentos[] = $servico;
-                    break;
-            }
-        }
         $array = array(
             'usuario_dados' => ['usuario' => $this->loggedUser],
-            'lista_medicos' => ['medicos' => $lista_medicos],
-            'lista_servicos' => $lista_servicos,
-            'lista_exames' => $lista_exames,
-            'lista_consultas' => $lista_consultas,
-            'lista_procedimentos' => $lista_procedimentos
         );
         $this->render('home', $array);
-    }
-    public function signup()
-    {
-        $this->render('cadastrar');
     }
 }

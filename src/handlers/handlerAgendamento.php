@@ -15,6 +15,7 @@ use src\models\Galeria;
 class handlerAgendamento
 {
 
+    //Função que gera os dados do serviço que vai ser Agendado
     public static function getDadosSolicitarServico($id)
     {
 
