@@ -39,6 +39,9 @@ $router->post('/agendar-servico', 'AgendamentosController@agendarServico');
 $router->get('/usuarios/send-confirmation/{id}', 'ConfirmController@sendConfirm');
 $router->get('/usuarios/confirmar/{id}', 'ConfirmController@confirm');
 
+//ROTAS DE PESQUISAS AJAX
+$router->get('/pesquisa-servico/{ns}', 'PesquisasController@pesquisa_servico_nome');
+
 //PÁGINAS DE LISTAGEM DE AGENDAMENTOS ESSAS ROTAS SEMPRE POR ULTIMO
 $router->get('/{servico}/{situacao}', 'AgendamentosController@listarServico');
 $router->get('/{servico}/{situacao}/{id}', 'AgendamentosController@detalharServico');

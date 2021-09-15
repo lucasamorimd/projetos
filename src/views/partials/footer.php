@@ -1,4 +1,9 @@
   <!-- ======= Footer ======= -->
+  <div id="search_modal" class="search-modal-container">
+      <div class="search-modal-content" id="search_content">
+
+      </div>
+  </div>
   <footer id="footer">
       <div class="container d-md-flex py-4">
 
@@ -21,5 +26,3 @@
           </div>
       </div>
   </footer><!-- End Footer -->
-
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>

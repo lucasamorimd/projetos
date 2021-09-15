@@ -28,6 +28,7 @@
 
     <!-- Template Main CSS File -->
     <link href="<?= $base ?>/assets/css/style.css" rel="stylesheet">
+    <link href="<?= $base ?>/assets/css/style_search.css" rel="stylesheet">
     <link href="<?= $base ?>/assets/css/sweetalert2.css" rel="stylesheet">
 
     <script src="<?= $base ?>/assets/js/jquery.js"></script>
@@ -46,11 +47,20 @@
     <!-- ======= Header ======= -->
     <header id="header" class="fixed-top d-flex align-items-center">
         <div class="container d-flex align-items-center">
-            <h1 class="logo me-auto"><a href="<?= $base ?>">Clinica<span>.</span></a></h1>
+            <h1 class="logo me-auto"><a href="<?= $base ?>">Clínica<span>.</span></a></h1>
             <!-- Uncomment below if you prefer to use an image logo -->
             <!-- <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt=""></a>-->
+            <div class="search-container">
+                <input class="search-input" type='search' placeholder="Procure um serviço" id="search_input" />
+                <span class="search-icon" id="search_icon">
+                    <i class="material-icons" style="color: white;">search</i>
+                </span>
+            </div>
 
             <nav id="navbar" class="navbar order-last order-lg-0">
+
+
+
                 <ul>
                     <li><a class="nav-link scrollto" href="<?= $base ?>">Home</a></li>
                     <!--<li><a class="nav-link scrollto" href="#about">Sobre</a></li>
@@ -62,7 +72,6 @@
                             <li><a href="<?= $base ?>/unidades/exames">Agendar Exame</a></li>
                             <li><a href="<?= $base ?>/unidades/procedimentos">Agendar Procedimento</a></li>
                             <li><a href="<?= $base ?>/unidades/consultas">Agendar Consulta</a></li>
-
                         </ul>
                     </li>
                     <li class="dropdown"><a href="#"><span>Marcados</span> <i class="bi bi-chevron-down"></i></a>
@@ -86,4 +95,4 @@
 
             <a href="<?= $base ?>/signout" class="get-started-btn">Logout</a>
         </div>
-    </header><!-- End Header -->
+    </header>
